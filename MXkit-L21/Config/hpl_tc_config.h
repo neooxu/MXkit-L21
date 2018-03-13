@@ -23,7 +23,7 @@
 // <i> This defines the prescaler value
 // <id> tc_prescaler
 #ifndef CONF_TC0_PRESCALER
-#define CONF_TC0_PRESCALER 0
+#define CONF_TC0_PRESCALER 3
 #endif
 // </h>
 
@@ -76,7 +76,7 @@
 // <o> Period Value <0x00000000-0xFFFFFFFF>
 // <id> tc_per
 #ifndef CONF_TC0_PER
-#define CONF_TC0_PER 0x32
+#define CONF_TC0_PER 0x2710
 #endif
 // </h>
 

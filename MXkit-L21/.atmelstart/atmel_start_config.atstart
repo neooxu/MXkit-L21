@@ -674,8 +674,8 @@ drivers:
       tc_arch_wave_duty_val: 500
       tc_arch_wave_per_val: 1000
       tc_mode: Counter in 16-bit mode
-      tc_per: 50
-      tc_prescaler: No division
+      tc_per: 10000
+      tc_prescaler: Divide by 8
       timer_event_control: false
     optional_signals:
     - identifier: PWM_B:WO/0
@@ -710,7 +710,7 @@ drivers:
       tcc_arch_cpten1: false
       tcc_arch_cpten2: false
       tcc_arch_cpten3: false
-      tcc_arch_cpten4: false
+      tcc_arch_cpten4: true
       tcc_arch_cpten5: false
       tcc_arch_cpten6: false
       tcc_arch_cpten7: false
@@ -729,7 +729,7 @@ drivers:
       tcc_arch_ovfeo: false
       tcc_arch_prescsync: Reload or reset counter on next GCLK
       tcc_arch_runstdby: false
-      tcc_arch_sel_ch: 1
+      tcc_arch_sel_ch: 0
       tcc_arch_tcei0: false
       tcc_arch_tcei1: false
       tcc_arch_tceinv0: false
@@ -770,7 +770,7 @@ drivers:
       tcc_arch_cc3: 0
       tcc_arch_cnteo: false
       tcc_arch_cntsel: An interrupt/event is generated when a new counter cycle starts
-      tcc_arch_cpten0: false
+      tcc_arch_cpten0: true
       tcc_arch_cpten1: false
       tcc_arch_cpten2: false
       tcc_arch_cpten3: false
@@ -793,7 +793,7 @@ drivers:
       tcc_arch_ovfeo: false
       tcc_arch_prescsync: Reload or reset counter on next GCLK
       tcc_arch_runstdby: false
-      tcc_arch_sel_ch: 1
+      tcc_arch_sel_ch: 0
       tcc_arch_tcei0: false
       tcc_arch_tcei1: false
       tcc_arch_tceinv0: false
@@ -870,6 +870,13 @@ pads:
     mode: Peripheral IO
     user_label: PA12
     configuration: null
+  LCD_RST:
+    name: PA17
+    definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::pad::PA17
+    mode: Digital output
+    user_label: LCD_RST
+    configuration:
+      pad_initial_level: Low
   SW_1:
     name: PA20
     definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::pad::PA20

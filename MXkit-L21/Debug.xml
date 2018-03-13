@@ -13,6 +13,7 @@
     <ListValues>
       <Value>%24(PackRepoDir)\arm\cmsis\5.0.1\CMSIS\Include\</Value>
       <Value>%24(PackRepoDir)\atmel\SAML21_DFP\1.2.120\saml21b\include</Value>
+      <Value>../Board/drv_VGM128064</Value>
       <Value>../Config</Value>
       <Value>../</Value>
       <Value>../examples</Value>
@@ -27,6 +28,7 @@
       <Value>../hpl/pm</Value>
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
+      <Value>../hpl/systick</Value>
       <Value>../hpl/tc</Value>
       <Value>../hpl/tcc</Value>
       <Value>../hri</Value>
@@ -49,6 +51,7 @@
     </ListValues>
   </armgcc.linker.libraries.LibrarySearchPaths>
   <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
+  <armgcc.linker.memorysettings.ExternalRAM />
   <armgcc.linker.miscellaneous.LinkerFlags>-Tsaml21j18b_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
   <armgcc.assembler.general.IncludePaths>
     <ListValues>
@@ -68,6 +71,7 @@
       <Value>../hpl/pm</Value>
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
+      <Value>../hpl/systick</Value>
       <Value>../hpl/tc</Value>
       <Value>../hpl/tcc</Value>
       <Value>../hri</Value>
@@ -93,6 +97,7 @@
       <Value>../hpl/pm</Value>
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
+      <Value>../hpl/systick</Value>
       <Value>../hpl/tc</Value>
       <Value>../hpl/tcc</Value>
       <Value>../hri</Value>

@@ -50,8 +50,7 @@ extern "C" {
 #define Y_WIDTH 	64
 
 //----------------- OLED PIN ----------------  	
-#define OLED_RST_Clr()
-#define OLED_RST_Set()
+
 	     
 #define OLED_CMD  0
 #define OLED_DATA 1

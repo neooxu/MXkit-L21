@@ -189,6 +189,20 @@ void system_init(void)
 
 	gpio_set_pin_function(USR, GPIO_PIN_FUNCTION_OFF);
 
+	// GPIO on PA17
+
+	// Set pin direction to output
+	gpio_set_pin_direction(LCD_RST, GPIO_DIRECTION_OUT);
+
+	gpio_set_pin_level(LCD_RST,
+	                   // <y> Initial level
+	                   // <id> pad_initial_level
+	                   // <false"> Low
+	                   // <true"> High
+	                   false);
+
+	gpio_set_pin_function(LCD_RST, GPIO_PIN_FUNCTION_OFF);
+
 	// GPIO on PA20
 
 	// Set pin direction to input

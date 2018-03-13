@@ -207,6 +207,7 @@ int32_t i2c_m_sync_cmd_read(struct i2c_m_sync_desc *i2c, uint8_t reg, uint8_t *b
 {
 	struct _i2c_m_msg msg;
 	int32_t           ret;
+	uint32_t          retry = 200;
 
 	msg.addr   = i2c->slave_addr;
 	msg.len    = 1;
@@ -220,11 +221,19 @@ int32_t i2c_m_sync_cmd_read(struct i2c_m_sync_desc *i2c, uint8_t reg, uint8_t *b
 		return ret;
 	}
 
-	msg.flags  = I2C_M_STOP | I2C_M_RD;
-	msg.buffer = buffer;
-	msg.len    = length;
+	while(retry) {
+		
+		msg.flags  = I2C_M_STOP | I2C_M_RD;
+		msg.buffer = buffer;
+		msg.len    = length;	
 
-	ret = _i2c_m_sync_transfer(&i2c->device, &msg);
+		ret = _i2c_m_sync_transfer(&i2c->device, &msg);
+		if (ret == 0)  break;
+
+		retry--;
+		delay_ms(50);
+	}
+	
 
 	if (ret != 0) {
 		/* error occurred */

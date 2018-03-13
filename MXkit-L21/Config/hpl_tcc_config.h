@@ -55,7 +55,7 @@
 // <o> TCC0 Waveform Channel Select <0x00-0x03>
 // <id> tcc_arch_sel_ch
 #ifndef CONF_TCC0_SEL_CH
-#define CONF_TCC0_SEL_CH 0x1
+#define CONF_TCC0_SEL_CH 0x0
 #endif
 
 /* Caculate pwm ccx register value based on WAVE_PER_VAL and Waveform Duty Value */
@@ -148,7 +148,7 @@
 // <i> Indicates whether the TCC0 Capture Channel 4 is enabled or not
 // <id> tcc_arch_cpten4
 #ifndef CONF_TCC0_CPTEN4
-#define CONF_TCC0_CPTEN4 0
+#define CONF_TCC0_CPTEN4 1
 #endif
 
 // <q> TCC0 Capture Channel 5 Enable
@@ -566,7 +566,7 @@
 // <o> TCC2 Waveform Channel Select <0x00-0x03>
 // <id> tcc_arch_sel_ch
 #ifndef CONF_TCC2_SEL_CH
-#define CONF_TCC2_SEL_CH 0x1
+#define CONF_TCC2_SEL_CH 0x0
 #endif
 
 /* Caculate pwm ccx register value based on WAVE_PER_VAL and Waveform Duty Value */
@@ -631,7 +631,7 @@
 // <i> Indicates whether the TCC2 Capture Channel 0 is enabled or not
 // <id> tcc_arch_cpten0
 #ifndef CONF_TCC2_CPTEN0
-#define CONF_TCC2_CPTEN0 0
+#define CONF_TCC2_CPTEN0 1
 #endif
 
 // <q> TCC2 Capture Channel 1 Enable

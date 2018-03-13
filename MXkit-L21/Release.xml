@@ -27,6 +27,7 @@
       <Value>../hpl/pm</Value>
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
+      <Value>../hpl/systick</Value>
       <Value>../hpl/tc</Value>
       <Value>../hpl/tcc</Value>
       <Value>../hri</Value>
@@ -67,6 +68,7 @@
       <Value>../hpl/pm</Value>
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
+      <Value>../hpl/systick</Value>
       <Value>../hpl/tc</Value>
       <Value>../hpl/tcc</Value>
       <Value>../hri</Value>
@@ -91,6 +93,7 @@
       <Value>../hpl/pm</Value>
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
+      <Value>../hpl/systick</Value>
       <Value>../hpl/tc</Value>
       <Value>../hpl/tcc</Value>
       <Value>../hri</Value>

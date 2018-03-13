@@ -232,15 +232,6 @@ void OLED_Init(void)
   }
   
   _oled_avalid = 1;
- 
-  OLED_RST_Clr();
-
-  OLED_RST_Set();
-  ssd1106_delay_ms(100);
-  OLED_RST_Clr();
-  ssd1106_delay_ms(100);
-  OLED_RST_Set(); 
-
   
   OLED_WR_Byte(0xAE,OLED_CMD);//--turn off oled panel
   OLED_WR_Byte(0x00,OLED_CMD);//---set low column address
@@ -291,7 +282,15 @@ int ssd1106_i2c_bus_init(void)
 {
 	I2C_0_init();
 	i2c_m_sync_set_baudrate(&I2C_0, 0, 100);
-	return i2c_m_sync_enable(&I2C_0);
+	i2c_m_sync_enable(&I2C_0);
+	
+	gpio_set_pin_level(LCD_RST, true);
+	delay_ms(100);
+	gpio_set_pin_level(LCD_RST, false);
+	delay_ms(100);
+	gpio_set_pin_level(LCD_RST, true);
+	  
+	return 0;
 }
 
 int ssd1106_i2c_bus_write(uint8_t reg_addr, uint8_t *reg_data, uint8_t cnt)

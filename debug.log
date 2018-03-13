@@ -1,1 +1,5 @@
 [0311/141018:ERROR:ipc_channel_win.cc(512)] pipe error: 232
+[0313/111101:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0313/111101:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0313/135147:WARNING:raw_channel_win.cc(532)] WriteFile: 管道正在被关闭。 (0xE8)
+[0313/135147:WARNING:channel.cc(359)] RawChannel write error

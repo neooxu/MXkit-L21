@@ -20,10 +20,10 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
     <eraseonlaunchrule>0</eraseonlaunchrule>
@@ -138,9 +138,9 @@
           <AcmeProjectActionInfo Action="File" Source="stdio_redirect/stdio_io.c" IsConfig="false" Hash="UrJDbXkOHViVdylqxwrS5Q" />
           <AcmeProjectActionInfo Action="File" Source="stdio_redirect/stdio_io.h" IsConfig="false" Hash="UYaiMoABsPInCz1RsJpDLA" />
           <AcmeProjectActionInfo Action="File" Source="main.c" IsConfig="false" Hash="k0AH7j+BrmdFhBPzCCMptA" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="kJEe4UhJVwpLqv/bEkKq2A" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="kxAXMqUS+i8lCawzQ7JZtA" />
           <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="vqXtVzoxKezp/NAWDkE03w" />
-          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="4XtyoH3pr24GMTb2slJ/Sg" />
+          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="Uvj938RnqjtdHcGyLQXTmw" />
           <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.h" IsConfig="false" Hash="HtfBl2v68Qm6iIgmymvbYg" />
           <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="dptljjbeEm8A3CWYWpJZug" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_pwm.h" IsConfig="false" Hash="GvZNA5M2idnqDPRYvHZ6Ig" />
@@ -157,7 +157,7 @@
           <AcmeProjectActionInfo Action="File" Source="hpl/core/hpl_core_m0plus_base.c" IsConfig="false" Hash="6FAsoECFZQZE17tjnSmvvQ" />
           <AcmeProjectActionInfo Action="File" Source="hpl/core/hpl_core_port.h" IsConfig="false" Hash="aP5qhvJxgu12CH/0emKWEw" />
           <AcmeProjectActionInfo Action="File" Source="hpl/core/hpl_init.c" IsConfig="false" Hash="eJWsIa0SJ3U3wya4J+IgUg" />
-          <AcmeProjectActionInfo Action="File" Source="hpl/dmac/hpl_dmac.c" IsConfig="false" Hash="p6VNvnqSkDN2/rOnU4gURQ" />
+          <AcmeProjectActionInfo Action="File" Source="hpl/dmac/hpl_dmac.c" IsConfig="false" Hash="wSO2zVerA5XSfSt2GNdByA" />
           <AcmeProjectActionInfo Action="File" Source="hpl/gclk/hpl_gclk.c" IsConfig="false" Hash="tM4AOXb+7ALB/L2IeO/vng" />
           <AcmeProjectActionInfo Action="File" Source="hpl/gclk/hpl_gclk_base.h" IsConfig="false" Hash="FNjePCljZtEX5ZWtAoTflQ" />
           <AcmeProjectActionInfo Action="File" Source="hpl/mclk/hpl_mclk.c" IsConfig="false" Hash="FWWPZ7b0BPNXmVkYDoYGsg" />
@@ -183,13 +183,54 @@
           <AcmeProjectActionInfo Action="File" Source="config/hpl_oscctrl_config.h" IsConfig="true" Hash="BbCmWqSP3SC2W87zA5AKUA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_sercom_config.h" IsConfig="true" Hash="6EY0cGT90/1d9rwRq51AMA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_systick_config.h" IsConfig="true" Hash="tlT3lNDKWFe82MiGWfQzcA" />
-          <AcmeProjectActionInfo Action="File" Source="config/hpl_tc_config.h" IsConfig="true" Hash="nQeT/tHCZUOJr/eJkFcbPw" />
-          <AcmeProjectActionInfo Action="File" Source="config/hpl_tcc_config.h" IsConfig="true" Hash="8bAsM/R0TYY3EAf/XpXf2g" />
+          <AcmeProjectActionInfo Action="File" Source="config/hpl_tc_config.h" IsConfig="true" Hash="eXI41L/UJmr3w9caECD9+w" />
+          <AcmeProjectActionInfo Action="File" Source="config/hpl_tcc_config.h" IsConfig="true" Hash="SNk8DhVr8muYxhpzarFglg" />
           <AcmeProjectActionInfo Action="File" Source="config/peripheral_clk_config.h" IsConfig="true" Hash="2K8aQ4BAv1eI7uNzL1lJjg" />
           <AcmeProjectActionInfo Action="File" Source="config/stdio_redirect_config.h" IsConfig="true" Hash="CKmkBk12sfr7mb+HRQBuzg" />
         </AcmeActionInfos>
       </AcmeProjectConfig>
     </AcmeProjectConfig>
+    <avrtool>com.atmel.avrdbg.tool.samice</avrtool>
+    <avrtoolserialnumber>59400009</avrtoolserialnumber>
+    <avrdeviceexpectedsignature>0x1081020F</avrdeviceexpectedsignature>
+    <avrtoolinterface>SWD</avrtoolinterface>
+    <com_atmel_avrdbg_tool_samice>
+      <ToolOptions>
+        <InterfaceProperties>
+          <SwdClock>4000000</SwdClock>
+        </InterfaceProperties>
+        <InterfaceName>SWD</InterfaceName>
+        <JlinkConfigFile>E:\ATMEL\MXkit-L21\MXkit-L21\jlink.config</JlinkConfigFile>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.samice</ToolType>
+      <ToolNumber>59400009</ToolNumber>
+      <ToolName>J-Link</ToolName>
+    </com_atmel_avrdbg_tool_samice>
+    <avrtoolinterfaceclock>4000000</avrtoolinterfaceclock>
+    <com_atmel_avrdbg_tool_edbg>
+      <ToolOptions>
+        <InterfaceProperties>
+          <SwdClock>2000000</SwdClock>
+        </InterfaceProperties>
+        <InterfaceName>SWD</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.edbg</ToolType>
+      <ToolNumber>ATML2241051800000472</ToolNumber>
+      <ToolName>EDBG MSD</ToolName>
+    </com_atmel_avrdbg_tool_edbg>
+    <custom>
+      <ToolOptions>
+        <InterfaceProperties>
+          <SwdClock>4000000</SwdClock>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType>custom</ToolType>
+      <ToolNumber>
+      </ToolNumber>
+      <ToolName>Custom Programming Tool</ToolName>
+    </custom>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -315,6 +356,7 @@
     <ListValues>
       <Value>%24(PackRepoDir)\arm\cmsis\5.0.1\CMSIS\Include\</Value>
       <Value>%24(PackRepoDir)\atmel\SAML21_DFP\1.2.120\saml21b\include</Value>
+      <Value>../Board/drv_VGM128064</Value>
       <Value>../Config</Value>
       <Value>../</Value>
       <Value>../examples</Value>
@@ -334,14 +376,14 @@
       <Value>../hpl/tcc</Value>
       <Value>../hri</Value>
       <Value>../stdio_redirect</Value>
-      <Value>../Board/drv_VGM128064</Value>
+      <Value>../Board/drv_color_led</Value>
+      <Value>../Board/drv_sht20</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize (-O1)</armgcc.compiler.optimization.level>
   <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
   <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
-  <armgcc.linker.general.UseNewlibNano>True</armgcc.linker.general.UseNewlibNano>
   <armgcc.linker.libraries.Libraries>
     <ListValues>
       <Value>libm</Value>
@@ -418,6 +460,24 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="atmel_start_pins.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\drv_color_led\color_led.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\drv_color_led\color_led.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\drv_color_led\hsb2rgb.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\drv_color_led\hsb_led.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\drv_sht20\sht2x.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\drv_sht20\sht2x.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Board\drv_VGM128064\oled.c">
@@ -834,6 +894,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Board\drv_VGM128064" />
+    <Folder Include="Board\drv_color_led" />
+    <Folder Include="Board\drv_sht20" />
     <Folder Include="Config\" />
     <Folder Include="Device_Startup\" />
     <Folder Include="examples\" />
@@ -853,11 +915,11 @@
     <Folder Include="hpl\pm\" />
     <Folder Include="hpl\port\" />
     <Folder Include="hpl\sercom\" />
+    <Folder Include="Board" />
     <Folder Include="hpl\systick\" />
     <Folder Include="hpl\tcc\" />
     <Folder Include="hpl\tc\" />
     <Folder Include="hri\" />
-    <Folder Include="Board" />
     <Folder Include="stdio_redirect\" />
     <Folder Include="stdio_redirect\gcc\" />
   </ItemGroup>
