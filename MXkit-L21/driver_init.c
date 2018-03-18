@@ -11,11 +11,16 @@
 #include <utils.h>
 #include <hal_init.h>
 
+/*! The buffer size for USART */
+#define USART_AT_BUFFER_SIZE 256
+
+struct usart_async_descriptor USART_AT;
+
+static uint8_t USART_AT_buffer[USART_AT_BUFFER_SIZE];
+
 struct i2c_m_sync_desc I2C_0;
 
 struct usart_sync_descriptor TARGET_IO;
-
-struct usart_sync_descriptor USART_AT;
 
 struct pwm_descriptor PWM_B;
 
@@ -85,7 +90,26 @@ void TARGET_IO_init(void)
 	TARGET_IO_PORT_init();
 }
 
-void USART_AT_PORT_init(void)
+/**
+ * \brief USART Clock initialization function
+ *
+ * Enables register interface and peripheral clock
+ */
+void USART_AT_CLOCK_init()
+{
+
+	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM4_GCLK_ID_CORE, CONF_GCLK_SERCOM4_CORE_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM4_GCLK_ID_SLOW, CONF_GCLK_SERCOM4_SLOW_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+
+	hri_mclk_set_APBCMASK_SERCOM4_bit(MCLK);
+}
+
+/**
+ * \brief USART pinmux initialization function
+ *
+ * Set each required pin to USART functionality
+ */
+void USART_AT_PORT_init()
 {
 
 	gpio_set_pin_function(PB08, PINMUX_PB08D_SERCOM4_PAD0);
@@ -93,18 +117,15 @@ void USART_AT_PORT_init(void)
 	gpio_set_pin_function(PB09, PINMUX_PB09D_SERCOM4_PAD1);
 }
 
-void USART_AT_CLOCK_init(void)
-{
-	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM4_GCLK_ID_CORE, CONF_GCLK_SERCOM4_CORE_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
-	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM4_GCLK_ID_SLOW, CONF_GCLK_SERCOM4_SLOW_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
-
-	hri_mclk_set_APBCMASK_SERCOM4_bit(MCLK);
-}
-
+/**
+ * \brief USART initialization function
+ *
+ * Enables USART peripheral, clocks and initializes USART driver
+ */
 void USART_AT_init(void)
 {
 	USART_AT_CLOCK_init();
-	usart_sync_init(&USART_AT, SERCOM4, (void *)NULL);
+	usart_async_init(&USART_AT, SERCOM4, USART_AT_buffer, USART_AT_BUFFER_SIZE, (void *)NULL);
 	USART_AT_PORT_init();
 }
 
@@ -116,7 +137,7 @@ void delay_driver_init(void)
 void PWM_B_PORT_init(void)
 {
 
-	gpio_set_pin_function(PB12, PINMUX_PB12E_TC0_WO0);
+	gpio_set_pin_function(PB13, PINMUX_PB13E_TC0_WO1);
 }
 
 void PWM_B_CLOCK_init(void)
@@ -236,7 +257,6 @@ void system_init(void)
 	I2C_0_init();
 
 	TARGET_IO_init();
-
 	USART_AT_init();
 
 	delay_driver_init();

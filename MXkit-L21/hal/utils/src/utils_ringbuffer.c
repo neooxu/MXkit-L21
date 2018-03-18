@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \brief Time measure related functionality declaration.
+ * \brief Ringbuffer functionality implementation.
  *
  * Copyright (C) 2014 Atmel Corporation. All rights reserved.
  *
@@ -40,65 +40,89 @@
  * \asf_license_stop
  *
  */
-
-#ifndef _HPL_TIME_MEASURE_H_INCLUDED
-#define _HPL_TIME_MEASURE_H_INCLUDED
+#include "utils_ringbuffer.h"
 
 /**
- * \addtogroup HPL Time measure
- *
- * \section hpl_time_measure_rev Revision History
- * - v1.0.0 Initial Release
- *
- *@{
+ * \brief Ringbuffer init
  */
+int32_t ringbuffer_init(struct ringbuffer *const rb, void *buf, uint32_t size)
+{
+	ASSERT(rb && buf && size);
 
-#include <compiler.h>
+	/*
+	 * buf size must be aligned to power of 2
+	 */
+	if ((size & (size - 1)) != 0) {
+		return ERR_INVALID_ARG;
+	}
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+	/* size - 1 is faster in calculation */
+	rb->size        = size - 1;
+	rb->read_index  = 0;
+	rb->write_index = rb->read_index;
+	rb->buf         = (uint8_t *)buf;
 
-/**
- * \brief System time type
- */
-typedef uint32_t system_time_t;
-
-/**
- * \name HPL functions
- */
-//@{
-/**
- * \brief Initialize system time module
- *
- * \param[in] hw The pointer to hardware instance to initialize
- */
-void _system_time_init(void *const hw);
-
-/**
- * \brief Deinitialize system time module
- *
- * \param[in] hw The pointer to hardware instance to initialize
- */
-void _system_time_deinit(void *const hw);
-
-/**
- * \brief Get system time
- *
- * \param[in] hw The pointer to hardware instance to initialize
- */
-system_time_t _system_time_get(const void *const hw);
-
-/**
- * \brief Get maximum possible system time
- *
- * \param[in] hw The pointer to hardware instance to initialize
- */
-system_time_t _system_time_get_max_time_value(const void *const hw);
-//@}
-
-#ifdef __cplusplus
+	return ERR_NONE;
 }
-#endif
-/**@}*/
-#endif /* _HPL_TIME_MEASURE_H_INCLUDED */
+
+/**
+ * \brief Get one byte from ringbuffer
+ *
+ */
+int32_t ringbuffer_get(struct ringbuffer *const rb, uint8_t *data)
+{
+	ASSERT(rb && data);
+
+	if (rb->write_index != rb->read_index) {
+		*data = rb->buf[rb->read_index & rb->size];
+		rb->read_index++;
+		return ERR_NONE;
+	}
+
+	return ERR_NOT_FOUND;
+}
+
+/**
+ * \brief Put one byte to ringbuffer
+ *
+ */
+int32_t ringbuffer_put(struct ringbuffer *const rb, uint8_t data)
+{
+	ASSERT(rb);
+
+	rb->buf[rb->write_index & rb->size] = data;
+
+	/*
+	 * buffer full strategy: new data will overwrite the oldest data in
+	 * the buffer
+	 */
+	if ((rb->write_index - rb->read_index) > rb->size) {
+		rb->read_index = rb->write_index - rb->size;
+	}
+
+	rb->write_index++;
+
+	return ERR_NONE;
+}
+
+/**
+ * \brief Return the element number of ringbuffer
+ */
+uint32_t ringbuffer_num(const struct ringbuffer *const rb)
+{
+	ASSERT(rb);
+
+	return rb->write_index - rb->read_index;
+}
+
+/**
+ * \brief Flush ringbuffer
+ */
+uint32_t ringbuffer_flush(struct ringbuffer *const rb)
+{
+	ASSERT(rb);
+
+	rb->read_index = rb->write_index;
+
+	return ERR_NONE;
+}

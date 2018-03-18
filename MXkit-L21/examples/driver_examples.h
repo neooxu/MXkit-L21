@@ -18,8 +18,6 @@ void TARGET_IO_example(void);
 
 void USART_AT_example(void);
 
-void delay_example(void);
-
 void PWM_B_example(void);
 
 void PWM_R_example(void);

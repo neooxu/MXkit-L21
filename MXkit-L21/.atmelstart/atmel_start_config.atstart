@@ -599,9 +599,9 @@ drivers:
           slow_gclk_selection: Generic clock generator 3
   USART_AT:
     user_label: USART_AT
-    definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::SERCOM4::driver_config_definition::UART::HAL:Driver:USART.Sync
+    definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::SERCOM4::driver_config_definition::UART::HAL:Driver:USART.Async
     functionality: USART
-    api: HAL:Driver:USART_Sync
+    api: HAL:Driver:USART_Async
     configuration:
       usart_advanced: false
       usart_arch_clock_mode: USART with internal clock
@@ -616,7 +616,7 @@ drivers:
       usart_arch_sampa: 7-8-9 (3-4-5 8-bit over-sampling)
       usart_arch_sampr: 16x arithmetic
       usart_arch_sfde: false
-      usart_baud_rate: 9600
+      usart_baud_rate: 115200
       usart_character_size: 8 bits
       usart_parity: No parity
       usart_rx_enable: true
@@ -642,17 +642,6 @@ drivers:
         configuration:
           core_gclk_selection: Generic clock generator 0
           slow_gclk_selection: Generic clock generator 3
-  DELAY_0:
-    user_label: DELAY_0
-    definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::SysTick::driver_config_definition::Delay::HAL:Driver:Delay
-    functionality: Delay
-    api: HAL:Driver:Delay
-    configuration:
-      systick_arch_tickint: false
-    optional_signals: []
-    variant: null
-    clocks:
-      domain_group: null
   PWM_B:
     user_label: PWM_B
     definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::TC0::driver_config_definition::PWM::HAL:Driver:PWM
@@ -678,13 +667,13 @@ drivers:
       tc_prescaler: Divide by 8
       timer_event_control: false
     optional_signals:
-    - identifier: PWM_B:WO/0
-      pad: PB12
+    - identifier: PWM_B:WO/1
+      pad: PB13
       mode: PWM output
       configuration: null
-      definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::optional_signal_definition::TC0.WO.0
-      name: TC0/WO/0
-      label: WO/0
+      definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::optional_signal_definition::TC0.WO.1
+      name: TC0/WO/1
+      label: WO/1
     variant: null
     clocks:
       domain_group:
@@ -858,11 +847,11 @@ pads:
     mode: Peripheral IO
     user_label: PB10
     configuration: null
-  PB12:
-    name: PB12
-    definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::pad::PB12
+  PB13:
+    name: PB13
+    definition: Atmel:SAML21_Drivers:0.0.1::SAML21J18B-AN::pad::PB13
     mode: Peripheral IO
-    user_label: PB12
+    user_label: PB13
     configuration: null
   PA12:
     name: PA12

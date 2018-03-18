@@ -24,10 +24,7 @@ extern "C" {
 #include <hal_i2c_m_sync.h>
 
 #include <hal_usart_sync.h>
-
-#include <hal_usart_sync.h>
-
-#include <hal_delay.h>
+#include <hal_usart_async.h>
 #include <hal_pwm.h>
 #include <hpl_tc_base.h>
 
@@ -39,9 +36,8 @@ extern "C" {
 
 extern struct i2c_m_sync_desc I2C_0;
 
-extern struct usart_sync_descriptor TARGET_IO;
-
-extern struct usart_sync_descriptor USART_AT;
+extern struct usart_sync_descriptor  TARGET_IO;
+extern struct usart_async_descriptor USART_AT;
 
 extern struct pwm_descriptor PWM_B;
 
@@ -60,8 +56,6 @@ void TARGET_IO_init(void);
 void USART_AT_PORT_init(void);
 void USART_AT_CLOCK_init(void);
 void USART_AT_init(void);
-
-void delay_driver_init(void);
 
 void PWM_B_PORT_init(void);
 void PWM_B_CLOCK_init(void);
