@@ -12,6 +12,8 @@
 extern "C" {
 #endif
 
+void EXTERNAL_IRQ_BTN_example(void);
+
 void I2C_0_example(void);
 
 void TARGET_IO_example(void);

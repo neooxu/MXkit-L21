@@ -33,8 +33,7 @@
 #ifndef __HSB2RGB_LED_H_
 #define __HSB2RGB_LED_H_
 
-#include "mico.h"
-#include "mico_platform.h"
+#include "color_led.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,7 +45,7 @@ extern "C" {
  *
  * @return none
  */
-void hsb2rgb_led_init( mico_gpio_t cin, mico_gpio_t din );
+void hsb2rgb_led_init( void );
 
 
 /**

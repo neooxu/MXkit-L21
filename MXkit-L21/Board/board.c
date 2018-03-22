@@ -11,7 +11,7 @@ void board_init(void)
 	
 	/* RGB color led initialize */
 	color_led_init();
-	color_led_open(0, 0, 255);
+	color_led_open(0, 0, 0);
 	
 	/* Temperature and humidity sensor  */
 	SHT2x_Init();

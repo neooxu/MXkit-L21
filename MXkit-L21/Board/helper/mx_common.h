@@ -211,6 +211,9 @@ typedef int         OSStatus;
 
 #define kGenericErrorEnd            -6779   //! Last generic error code (inclusive)
 
+#define kJsonErrorBase              -7000   //! Starting error code for all generic errors.
+#define kJsonErrorEnd               -7100   //! Last generic error code (inclusive)
+
 
 // ==== C TYPE SAFE MACROS ====
 //---------------------------------------------------------------------------------------------------------------------------

@@ -10,6 +10,19 @@
 #include "driver_init.h"
 #include "utils.h"
 
+static void button_on_PA02_pressed(void)
+{
+}
+
+/**
+ * Example of using EXTERNAL_IRQ_BTN
+ */
+void EXTERNAL_IRQ_BTN_example(void)
+{
+
+	ext_irq_register(PIN_PA02, button_on_PA02_pressed);
+}
+
 void I2C_0_example(void)
 {
 	struct io_descriptor *I2C_0_io;

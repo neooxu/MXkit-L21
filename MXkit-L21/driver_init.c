@@ -12,7 +12,7 @@
 #include <hal_init.h>
 
 /*! The buffer size for USART */
-#define USART_AT_BUFFER_SIZE 256
+#define USART_AT_BUFFER_SIZE 2048
 
 struct usart_async_descriptor USART_AT;
 
@@ -27,6 +27,27 @@ struct pwm_descriptor PWM_B;
 struct pwm_descriptor PWM_R;
 
 struct pwm_descriptor PWM_G;
+
+void EXTERNAL_IRQ_BTN_init(void)
+{
+	hri_gclk_write_PCHCTRL_reg(GCLK, EIC_GCLK_ID, CONF_GCLK_EIC_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+	hri_mclk_set_APBAMASK_EIC_bit(MCLK);
+
+	// Set pin direction to input
+	gpio_set_pin_direction(USR, GPIO_DIRECTION_IN);
+
+	gpio_set_pin_pull_mode(USR,
+	                       // <y> Pull configuration
+	                       // <id> pad_pull_config
+	                       // <GPIO_PULL_OFF"> Off
+	                       // <GPIO_PULL_UP"> Pull-up
+	                       // <GPIO_PULL_DOWN"> Pull-down
+	                       GPIO_PULL_UP);
+
+	gpio_set_pin_function(USR, PINMUX_PA02A_EIC_EXTINT2);
+
+	ext_irq_init();
+}
 
 void I2C_0_PORT_init(void)
 {
@@ -129,11 +150,6 @@ void USART_AT_init(void)
 	USART_AT_PORT_init();
 }
 
-void delay_driver_init(void)
-{
-	delay_init(SysTick);
-}
-
 void PWM_B_PORT_init(void)
 {
 
@@ -195,21 +211,6 @@ void system_init(void)
 {
 	init_mcu();
 
-	// GPIO on PA02
-
-	// Set pin direction to input
-	gpio_set_pin_direction(USR, GPIO_DIRECTION_IN);
-
-	gpio_set_pin_pull_mode(USR,
-	                       // <y> Pull configuration
-	                       // <id> pad_pull_config
-	                       // <GPIO_PULL_OFF"> Off
-	                       // <GPIO_PULL_UP"> Pull-up
-	                       // <GPIO_PULL_DOWN"> Pull-down
-	                       GPIO_PULL_OFF);
-
-	gpio_set_pin_function(USR, GPIO_PIN_FUNCTION_OFF);
-
 	// GPIO on PA17
 
 	// Set pin direction to output
@@ -254,12 +255,12 @@ void system_init(void)
 
 	gpio_set_pin_function(SW_2, GPIO_PIN_FUNCTION_OFF);
 
+	EXTERNAL_IRQ_BTN_init();
+
 	I2C_0_init();
 
 	TARGET_IO_init();
 	USART_AT_init();
-
-	delay_driver_init();
 
 	PWM_B_init();
 

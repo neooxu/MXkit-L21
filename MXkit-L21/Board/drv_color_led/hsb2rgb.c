@@ -29,19 +29,16 @@
  *
  ******************************************************************************
  */
-#if 0
-#include "mico_common.h"
-#include "mico_debug.h"
-#include "hsb2rgb_led.h"
-#include "rgb_led.h"
+
+#include "mx_common.h"
+#include "mx_debug.h"
+#include "color_led.h"
+#include "hsb_led.h"
 
 #define hsb2rgb_led_log(M, ...) custom_log("HSB2RGB_LED", M, ##__VA_ARGS__)
 #define hsb2rgb_led_log_trace() custom_log_trace("HSB2RGB_LED")
 
 #define H2R_MAX_RGB_val 255.0f
-
-static mico_gpio_t  P9813_PIN_CIN = MICO_GPIO_NONE;
-static mico_gpio_t  P9813_PIN_DIN = MICO_GPIO_NONE;
 
 static float constrain(float value, float min, float max){
   if(value >= max)
@@ -60,6 +57,7 @@ static void H2R_HSBtoRGB(float hue, float sat, float bright, float *color) {
   hue = constrain(hue, 0, 360);
   sat = constrain(sat, 0, 100);
   bright = constrain(bright, 0, 100);
+  
   // define maximum value for RGB array elements
   float max_rgb_val = H2R_MAX_RGB_val;
   // convert saturation and brightness value to decimals and init r, g, b variables
@@ -131,38 +129,33 @@ static void OpenLED_RGB(float *color)
   uint8_t green = (uint8_t)(color[1]);
   uint8_t red = (uint8_t)(color[0]);
 
-  //hsb2rgb_led_log("OpenLED_RGB: red=%d, green=%d, blue=%d.", red, green, blue);
-
-  rgb_led_init(P9813_PIN_CIN, P9813_PIN_DIN);
-  rgb_led_open(red, green, blue);
+  color_led_init();
+  color_led_open(red, green, blue);
 }
 
 static void CloseLED_RGB()
 {
-    rgb_led_init(P9813_PIN_CIN, P9813_PIN_DIN);
-  rgb_led_close();
+    color_led_init();
+	color_led_close();
 }
 
 
 /*----------------------------------------------------- USER INTERFACES ---------------------------------------*/
 
-void hsb2rgb_led_init( mico_gpio_t cin, mico_gpio_t din )
+void hsb2rgb_led_init( void )
 {
-    P9813_PIN_CIN = cin;
-    P9813_PIN_DIN = din;
-
-    rgb_led_init(cin, din);
+    color_led_init();
 }
 
 void hsb2rgb_led_open(float hues, float saturation, float brightness)
 {
-  float color[3] = {0};
-  H2R_HSBtoRGB(hues, saturation, brightness, color);
-  OpenLED_RGB(color);
+	float color[3] = {0};
+
+	H2R_HSBtoRGB(hues, saturation, brightness, color);
+	OpenLED_RGB(color);
 }
 
 void hsb2rgb_led_close(void)
 {
   CloseLED_RGB();
 }
-#endif

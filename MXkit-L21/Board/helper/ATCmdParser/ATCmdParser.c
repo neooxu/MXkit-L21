@@ -22,6 +22,8 @@ static int _timeout = 0;
 static uint8_t _buffer[AT_BUFFER_SIZE];
 static const char *_output_delimiter;
 static int _output_delim_size;
+static const char *_input_delimiter;
+static int _input_delim_size;
 
 void ATCmdParser_hal_init(void);
 int ATCmdParser_hal_putc(char c);
@@ -69,12 +71,6 @@ restart:
 				}
 			}
 		}
-		
-		if (_buffer[offset-2] == CR) {
-			_buffer[offset-2] = LF;
-			offset--;
-		}
-
 
 		// Scanf has very poor support for catching errors
 		// fortunately, we can abuse the %n specifier to determine
@@ -101,17 +97,7 @@ restart:
 				debug_if(_dbg_on, "AT(Timeout)\n");
 				return false;
 			}
-			// Simplify newlines (borrowed from retarget.cpp)=>LF
-			if ((c == CR && _in_prev != LF) ||
-			(c == LF && _in_prev != CR)) {
-				c = '\n';
-			} else if ((c == CR && _in_prev == LF) ||
-			(c == LF && _in_prev == CR)) {
-				_in_prev = c;
-				// onto next character
-				continue;
-				} 
-			
+
 			/* Possible not existed string may cause %n function failed:
 			example: "cmd:%*s\r\n%n" not match "cmd:\r\n", %n will not 
 			give a valid value, so we give some dummy chars */
@@ -189,9 +175,11 @@ restart:
 	return true;
 }
 
+
 // Command parsing with line handling
 bool ATCmdParser_vsend(const char *command, va_list args)
 {
+	while (ATCmdParser_process_oob());
 	// Create and send command
 	if (vsprintf(_buffer, command, args) < 0) {
 		return false;
@@ -240,6 +228,7 @@ int ATCmdParser_write(const char *data, int size)
 		if (ATCmdParser_hal_putc(data[i]) < 0) {
 			return -1;
 		}
+		//mx_delay(1);
 	}
 	return i;
 }
@@ -304,9 +293,9 @@ bool ATCmdParser_process_oob(void)
 		// Clear the buffer when we hit a newline or ran out of space
 		// running out of space usually means we ran into binary data
 		if (i+1 >= AT_BUFFER_SIZE ||
-		strcmp(&_buffer[i-_output_delim_size], _output_delimiter) == 0) {
+		strcmp(&_buffer[i-_input_delim_size], _input_delimiter) == 0) {
 
-			debug_if(_dbg_on, "AT< %s", _buffer);
+			debug_if(_dbg_on, "AT< %s, %d\r\n", _buffer, i);
 			i = 0;
 		}
 	}
@@ -344,13 +333,16 @@ void ATCmdParser_set_timeout(int timeout)
 	_timeout = timeout;
 }
 
-void ATCmdParser_init(const char *output_delimiter, int timeout, bool debug)
+void ATCmdParser_init(const char *output_delimiter, const char *input_delimiter, int timeout, bool debug)
 {
 	_timeout = timeout;
 	_dbg_on = debug;
 	
 	_output_delimiter = output_delimiter;
 	_output_delim_size = strlen(output_delimiter);
+	
+	_input_delimiter = input_delimiter;
+	_input_delim_size = strlen(input_delimiter);
 	
 	ATCmdParser_hal_init();
 }
