@@ -150,6 +150,10 @@ void hsb2rgb_led_init( void )
 void hsb2rgb_led_open(float hues, float saturation, float brightness)
 {
 	float color[3] = {0};
+		
+	//saturation = saturation;//*pow(saturation/100.0, 0.2);
+	saturation = saturation*pow(saturation/100.0, 0.1);
+	brightness = brightness*pow(brightness/100.0, 2);
 
 	H2R_HSBtoRGB(hues, saturation, brightness, color);
 	OpenLED_RGB(color);

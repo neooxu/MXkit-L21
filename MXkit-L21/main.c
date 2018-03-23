@@ -22,7 +22,7 @@ uint32_t latest_sensor_read_tick = 0;
 
 uint32_t latest_console_send_tick = 0;
 
-float bright = 20.0;
+float bright = 100.0;
 float saturation = 100.0;
 float hue = 50.0;
 bool  light_on = true;
@@ -181,7 +181,7 @@ mx_status handle_read_cur_temperature(ali_att_val *value)
 /* RGB led attribute handlers */
 mx_status handle_write_cur_saturation	(ali_att_val value)
 {
-	saturation = value.intValue;
+	saturation = (float)value.intValue;
 	if (light_on == true) {
 		hsb2rgb_led_open(hue, saturation, bright);
 	}
@@ -189,7 +189,7 @@ mx_status handle_write_cur_saturation	(ali_att_val value)
 }
 mx_status handle_write_cur_bright		(ali_att_val value)
 {
-	bright = value.intValue;
+	bright = (float)value.intValue;
 	if (light_on == true) {
 		hsb2rgb_led_open(hue, saturation, bright);
 	}
@@ -221,19 +221,19 @@ mx_status handle_write_cur_light_switch(ali_att_val value)
 
 mx_status handle_read_cur_saturation(ali_att_val *value)
 {
-	(*value).intValue = saturation;
+	(*value).intValue = (int)saturation;
 	return kNoErr;
 }
 
 mx_status handle_read_cur_bright(ali_att_val *value)
 {
-	(*value).intValue = bright;
+	(*value).intValue = (int)bright;
 	return kNoErr;
 }
 
 mx_status handle_read_cur_hue(ali_att_val *value)
 {
-	(*value).intValue = hue;
+	(*value).intValue = (int)hue;
 	return kNoErr;
 }
 
@@ -246,13 +246,13 @@ mx_status handle_read_cur_light_switch(ali_att_val *value)
 /* Switch attribute handlers */
 mx_status handle_read_cur_switch_1		(ali_att_val *value)
 {
-	(*value).boolValue = switch_1;
+	(*value).boolValue = (switch_1==true)? false:true;
 	return kNoErr;
 }
 
 mx_status handle_read_cur_switch_2		(ali_att_val *value)
 {
-	(*value).boolValue = switch_2;
+	(*value).boolValue = (switch_2==true)? false:true;
 	return kNoErr;	
 }
 

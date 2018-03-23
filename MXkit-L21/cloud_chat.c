@@ -34,8 +34,8 @@ const emw_ali_config_t ali_config =
 //const char *dev_sec = "CnJ9c7DoRBgrAsVT9IHoYMz0LviLgWjw";
 
 //BBEA
-const char *dev_key = "eImkAqUT24v1VYO8fbmf";
-const char *dev_sec = "7qSOxEu7HcbDDa0LJSc0sHLVnEjnn3qZ";
+//const char *dev_key = "eImkAqUT24v1VYO8fbmf";
+//const char *dev_sec = "7qSOxEu7HcbDDa0LJSc0sHLVnEjnn3qZ";
 
 //BBE0
 //const char *dev_key = "R41Qd1Rm9CMtWWmUIsTM";
@@ -43,8 +43,8 @@ const char *dev_sec = "7qSOxEu7HcbDDa0LJSc0sHLVnEjnn3qZ";
 
 
 //microchip
-//const char *dev_key = "7UXu5dclxk6Gja8LzelT";
-//const char *dev_sec = "xXKxoAVPtTfeoP2DDwOnUB7ZxnIbuoaJ";
+const char *dev_key = "7UXu5dclxk6Gja8LzelT";
+const char *dev_sec = "xXKxoAVPtTfeoP2DDwOnUB7ZxnIbuoaJ";
 
 
 
@@ -366,7 +366,7 @@ void alicloud_indicate_local_atts(int attr_handles[], int num)
 	err = json_close_object(&jstr);
 	require_noerr(err, exit);
 	
-	//cc_log("Send to cloud %d bytes > %s", strlen(buff), buff);
+	cc_log("Send to cloud %d bytes > %s", strlen(buff), buff);
 	err = emw_ali_set_cloud_atts(EMW_ARG_ALI_FORMAT_JSON, buff, strlen(buff));
 	require_noerr(err, exit);
 	
