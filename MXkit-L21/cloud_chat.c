@@ -62,6 +62,7 @@ const char oled_config_line[OLED_DISPLAY_MAX_CHAR_PER_ROW]="Wi-Fi config....";
 const char oled_ali_connect_line[OLED_DISPLAY_MAX_CHAR_PER_ROW]="Cloud connected";
 const char oled_ali_disconnect_line[OLED_DISPLAY_MAX_CHAR_PER_ROW]="Cloud disconnected";
 
+extern const char oled_clear_line[OLED_DISPLAY_MAX_CHAR_PER_ROW];
 		
 uint8_t cc_init(void)
 {
@@ -78,10 +79,6 @@ static mx_status _handle_state_initialize(void)
 {
 	mx_status err = kNoErr;
 	char ssid[33], pwd[33];
-
-
-	//err = emw_module_restore_settings();
-	//require_noerr(err, exit);
 
 	cc_log("FW version: %s", emw_module_get_fw_version());
 
@@ -115,6 +112,7 @@ static mx_status _handle_state_initialize(void)
 	else {
 		cc_log("Wlan unconfigured, start provision mode");
 		
+		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_clear_line);
 		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_config_line);
 		/* Start alicloud Wi-Fi configuration */
 		err = emw_ali_provision(true);
@@ -184,9 +182,11 @@ void emw_ev_wlan(emw_arg_wlan_ev_e event)
 {
 	cc_log("Wlan event: %s", emw_arg_for_type(EMW_ARG_WLAN_EV, event));
 	if (event == EMW_ARG_WLAN_EV_STA_CONNECTED) {
+		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_clear_line);
 		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_wifi_connect_line);
 	}
 	else if (event == EMW_ARG_WLAN_EV_STA_DISCONNECTED) {
+		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_clear_line);
 		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_wifi_disconnect_line);
 	}
 }
@@ -205,6 +205,7 @@ void emw_ev_ali_connection(emw_arg_ali_conn_e conn)
 
 		
 		mx_delay(1000);
+		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_clear_line);
 		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_ali_connect_line);
 		
 		context.device_state = eState_M3_normal;
@@ -213,6 +214,7 @@ void emw_ev_ali_connection(emw_arg_ali_conn_e conn)
 	}
 
 	if (conn == EMW_ARG_ALI_CONN_DISCONNECTED) {
+		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_clear_line);
 		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, oled_ali_disconnect_line);
 		context.device_state = eState_M4_disconnected;
 	}

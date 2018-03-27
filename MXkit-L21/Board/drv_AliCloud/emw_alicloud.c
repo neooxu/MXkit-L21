@@ -130,7 +130,7 @@ mx_status emw_ali_stop_provision(void)
 }
 
 mx_status emw_ali_set_cloud_atts(emw_arg_ali_format_e format, uint8_t *data, int32_t len)
-{	
+{
 	if (ATCmdParser_send("AT+ALINKSEND=%d", len)
 	 && ATCmdParser_recv(">")
 	 && ATCmdParser_write(data, len) == len

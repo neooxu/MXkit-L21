@@ -62,14 +62,14 @@ int main(void)
 	board_init();
 	cc_init();
 	
-	OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_1, "MicroChip");
+	OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_1, "Microchip");
 
 	hsb2rgb_led_open(hue, saturation, bright);
 	temperature = SHT2x_GetTempPoll();
 	humidity = SHT2x_GetHumiPoll();
 	
 	sprintf(sensor_display[0], "Temp: %.2f C", temperature);
-	sprintf(sensor_display[1], "humi: %.2f %%", humidity);
+	sprintf(sensor_display[1], "Humi: %.2f %%", humidity);
 		
 	OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_2, sensor_display[0]);
 	OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_3, sensor_display[1]);
