@@ -41,6 +41,7 @@
  *
  */
 #include <hal_i2c_m_sync.h>
+#include <hal_delay.h>
 #include <utils.h>
 #include <utils_assert.h>
 

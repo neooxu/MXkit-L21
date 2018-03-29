@@ -669,25 +669,6 @@ typedef int         OSStatus;
 #endif
 
 
-#ifdef MICO_ENABLE_MALLOC_DEBUG
-#include "malloc_debug.h"
-extern void malloc_print_mallocs           ( void );
-#else
-#define calloc_named( name, nelems, elemsize) calloc ( nelems, elemsize )
-#define calloc_named_hideleak( name, nelems, elemsize )  calloc ( nelems, elemsize )
-#define realloc_named( name, ptr, size )      realloc( ptr, size )
-#define malloc_named( name, size )            malloc ( size )
-#define malloc_named_hideleak( name, size )   malloc ( size )
-#define malloc_set_name( name )
-#define malloc_leak_set_ignored( global_flag )
-#define malloc_leak_set_base( global_flag )
-#define malloc_leak_check( thread, global_flag )
-#define malloc_transfer_to_curr_thread( block )
-#define malloc_transfer_to_thread( block, thread )
-#define malloc_print_mallocs( void )
-#define malloc_debug_startup_finished( )
-#endif /* ifdef MICO_ENABLE_MALLOC_DEBUG */
-
 /**
  ******************************************************************************
  * Convert a nibble into a hex character

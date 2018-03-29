@@ -142,6 +142,8 @@ static void CloseLED_RGB()
 
 /*----------------------------------------------------- USER INTERFACES ---------------------------------------*/
 
+#include <math.h>
+
 void hsb2rgb_led_init( void )
 {
     color_led_init();

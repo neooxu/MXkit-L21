@@ -366,9 +366,7 @@
       <Value>../Board/drv_VGM128064</Value>
       <Value>../Board/drv_color_led</Value>
       <Value>../Board/drv_sht20</Value>
-      <Value>../Board/helper/ATCmdParser</Value>
       <Value>../Board/helper</Value>
-      <Value>../Board/drv_AliCloud</Value>
       <Value>../Config</Value>
       <Value>../</Value>
       <Value>../examples</Value>
@@ -390,6 +388,10 @@
       <Value>../stdio_redirect</Value>
       <Value>../Board/drv_button</Value>
       <Value>../Board/helper/jsmn</Value>
+      <Value>../Board/helper/emhost</Value>
+      <Value>../Board</Value>
+      <Value>../Board/helper/hal</Value>
+      <Value>../Board/AliCloud_SDS</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize (-O1)</armgcc.compiler.optimization.level>
@@ -465,6 +467,18 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app_console.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="app_rgbled.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="app_sht20.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="app_switch.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="atmel_start.c">
       <SubType>compile</SubType>
     </Compile>
@@ -474,34 +488,22 @@
     <Compile Include="atmel_start_pins.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\board.c">
+    <Compile Include="Board\AliCloud_SDS\alicloud_sds.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\board_test.c">
+    <Compile Include="Board\AliCloud_SDS\alicloud_sds.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\drv_AliCloud\emw_alicloud.c">
+    <Compile Include="Board\AliCloud_SDS\alicloud_sds_db.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\drv_AliCloud\emw_alicloud_db.h">
+    <Compile Include="Board\drv_board_test.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\drv_AliCloud\emw_api.h">
+    <Compile Include="Board\drv_board.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\drv_AliCloud\emw_event.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Board\drv_AliCloud\emw_module.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Board\drv_AliCloud\emw_arg.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Board\drv_AliCloud\emw_arg.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Board\drv_AliCloud\emw_wlan.c">
+    <Compile Include="Board\drv_board.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Board\drv_button\io_button.c">
@@ -537,13 +539,43 @@
     <Compile Include="Board\drv_VGM128064\oledfont.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\helper\ATCmdParser\ATCmdParser.c">
+    <Compile Include="Board\helper\emhost\ATCmdParser\ATCmdParser.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\helper\ATCmdParser\ATCmdParser.h">
+    <Compile Include="Board\helper\emhost\ATCmdParser\ATCmdParser.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\helper\ATCmdParser\ATCmdParserTest.c">
+    <Compile Include="Board\helper\emhost\ATCmdParser\ATCmdParserTest.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\emhost\emh_alicloud.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\emhost\emh_api.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\emhost\emh_arg.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\emhost\emh_arg.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\emhost\emh_event.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\emhost\emh_module.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\emhost\emh_wlan.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\hal\mx_hal.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\hal\mx_serial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\hal\mx_tick.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Board\helper\jsmn\jsmn.c">
@@ -585,16 +617,7 @@
     <Compile Include="Board\helper\mx_opt.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\helper\Ticker.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="Board\helper\mx_toolchain.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="cloud_chat.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="cloud_chat.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Config\hpl_dmac_config.h">
@@ -643,9 +666,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="driver_init.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="emw_alicloud_db.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="examples\driver_examples.c">
@@ -1002,6 +1022,9 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="main.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="stdio_redirect\gcc\read.c">
       <SubType>compile</SubType>
     </Compile>
@@ -1025,11 +1048,13 @@
     <Folder Include="Board\drv_VGM128064" />
     <Folder Include="Board\drv_color_led" />
     <Folder Include="Board\drv_sht20" />
-    <Folder Include="Board\drv_AliCloud" />
+    <Folder Include="Board\AliCloud_SDS" />
     <Folder Include="Board\helper" />
-    <Folder Include="Board\helper\ATCmdParser\" />
     <Folder Include="Board\drv_button" />
+    <Folder Include="Board\helper\emhost\ATCmdParser" />
     <Folder Include="Board\helper\jsmn" />
+    <Folder Include="Board\helper\emhost" />
+    <Folder Include="Board\helper\hal" />
     <Folder Include="Config\" />
     <Folder Include="Device_Startup\" />
     <Folder Include="examples\" />

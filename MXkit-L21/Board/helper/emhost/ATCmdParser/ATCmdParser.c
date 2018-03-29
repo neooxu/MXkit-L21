@@ -1,6 +1,7 @@
 
 
 #include "ATCmdParser.h"
+#include "mx_hal.h"
 
 #ifdef LF
 #undef LF
@@ -18,19 +19,11 @@
 
 bool _dbg_on = false;
 static struct oob *_oobs;
-static int _timeout = 0;
-static uint8_t _buffer[AT_BUFFER_SIZE];
+static char _buffer[AT_BUFFER_SIZE];
 static const char *_output_delimiter;
 static int _output_delim_size;
 static const char *_input_delimiter;
 static int _input_delim_size;
-
-void ATCmdParser_hal_init(void);
-int ATCmdParser_hal_putc(char c);
-int ATCmdParser_hal_getc(void);
-bool ATCmdParser_hal_readable(void);
-void ATCmdParser_hal_flush(void);
-
 
 static inline void debug_if(int condition, const char *format, ...) {
 	if (condition) {
@@ -92,7 +85,7 @@ restart:
 
 		while (true) {
 			// Receive next character
-			int c = ATCmdParser_hal_getc();
+			int c = mx_hal_serial_getc();
 			if (c < 0) {
 				debug_if(_dbg_on, "AT(Timeout)\n");
 				return false;
@@ -186,14 +179,14 @@ bool ATCmdParser_vsend(const char *command, va_list args)
 	}
 
 	for (int i = 0; _buffer[i]; i++) {
-		if (ATCmdParser_hal_putc(_buffer[i]) < 0) {
+		if (mx_hal_serial_putc(_buffer[i]) < 0) {
 			return false;
 		}
 	}
 
 	// Finish with newline
 	for (size_t i = 0; _output_delimiter[i]; i++) {
-		if (ATCmdParser_hal_putc(_output_delimiter[i]) < 0) {
+		if (mx_hal_serial_putc(_output_delimiter[i]) < 0) {
 			return false;
 		}
 	}
@@ -225,7 +218,7 @@ int ATCmdParser_write(const char *data, int size)
 {
 	int i = 0;
 	for ( ; i < size; i++) {
-		if (ATCmdParser_hal_putc(data[i]) < 0) {
+		if (mx_hal_serial_putc(data[i]) < 0) {
 			return -1;
 		}
 		//mx_delay(1);
@@ -237,7 +230,7 @@ int ATCmdParser_read(char *data, int size)
 {
 	int i = 0;
 	for ( ; i < size; i++) {
-		int c = ATCmdParser_hal_getc();
+		int c = mx_hal_serial_getc();
 		if (c < 0) {
 			return -1;
 		}
@@ -264,14 +257,14 @@ void ATCmdParser_add_oob(const char *prefix, oob_callback cb)
 
 bool ATCmdParser_process_oob(void)
 {
-	if (!ATCmdParser_hal_readable()) {
+	if (!mx_hal_serial_readable()) {
 		return false;
 	}
 
 	int i = 0;
 	while (true) {
 		// Receive next character
-		int c = ATCmdParser_hal_getc();
+		int c = mx_hal_serial_getc();
 		if (c < 0) {
 			return false;
 		}
@@ -330,12 +323,11 @@ int ATCmdParser_analyse_args(char args[], char *arg_list[], int list_size)
 
 void ATCmdParser_set_timeout(int timeout)
 {
-	_timeout = timeout;
+	mx_hal_serial_set_timeout(timeout);
 }
 
 void ATCmdParser_init(const char *output_delimiter, const char *input_delimiter, int timeout, bool debug)
 {
-	_timeout = timeout;
 	_dbg_on = debug;
 	
 	_output_delimiter = output_delimiter;
@@ -344,80 +336,6 @@ void ATCmdParser_init(const char *output_delimiter, const char *input_delimiter,
 	_input_delimiter = input_delimiter;
 	_input_delim_size = strlen(input_delimiter);
 	
-	ATCmdParser_hal_init();
+	mx_hal_serial_init(timeout);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-#include <hal_usart_async.h>
-#include <utils.h>
-
-extern struct usart_async_descriptor USART_AT;
-static struct io_descriptor *io_at;
-static volatile bool tx_complete = true;
-
-
-static void rx_cb_USART_AT(const struct usart_async_descriptor *const io_descr)
-{
-	/* Driver will store the received data to its buffer */
-}
-
-static void tx_cb_USART_AT(const struct usart_async_descriptor *const io_descr)
-{
-	tx_complete = true;
-}
-
-void ATCmdParser_hal_init(void)
-{
-	usart_async_register_callback(&USART_AT, USART_ASYNC_RXC_CB, rx_cb_USART_AT);
-	usart_async_register_callback(&USART_AT, USART_ASYNC_TXC_CB, tx_cb_USART_AT);
-	usart_async_get_io_descriptor(&USART_AT, &io_at);
-	usart_async_enable(&USART_AT);
-}
-
-int ATCmdParser_hal_putc(char c)
-{
-	uint32_t current = ms_ticker_read();
-	
-	do {
-		if(tx_complete) {
-			tx_complete = false;
-			return io_write(io_at, &c, 1) == 1 ? 0 : -1;				
-		}
-	} while((ms_ticker_read() - current) < _timeout);
-
-	return -1;
-}
-
-int ATCmdParser_hal_getc(void)
-{
-	uint32_t current = ms_ticker_read();
-	uint8_t ch;
-	
-	do {
-		if (io_read(io_at, &ch, 1) == 1) return ch;
-	} while((ms_ticker_read() - current) < _timeout);
-	
-	return -1;
-}
-
-bool ATCmdParser_hal_readable(void)
-{
-	struct usart_async_descriptor *descr = CONTAINER_OF(io_at, struct usart_async_descriptor, io);
-	if(ringbuffer_num(&descr->rx)) return true;
-	return false;
-}
-
-
-void ATCmdParser_hal_flush(void)
-{
-	uint32_t                       num;
-	uint8_t                        tmp;
-	struct usart_async_descriptor *descr = CONTAINER_OF(io_at, struct usart_async_descriptor, io);
-	
-	CRITICAL_SECTION_ENTER()
-    for(num = ringbuffer_num(&descr->rx); num>0; num--) {
-		ringbuffer_get(&descr->rx, &tmp);
-	}
-	CRITICAL_SECTION_LEAVE()
-}

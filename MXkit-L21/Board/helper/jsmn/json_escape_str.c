@@ -62,6 +62,12 @@ int json_escape_str(struct json_printbuf *pb, const char *str, int len)
   const char *json_hex_chars = "0123456789abcdef";
 
   unsigned char c;
+  
+  if(len == 0) {
+	  json_printbuf_memappend(pb, str, pos);
+	  return 0;
+  }
+  
   while (len--) {
     c = str[pos];
     switch(c) {

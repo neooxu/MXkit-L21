@@ -230,7 +230,7 @@ static inline uint8_t _get_hardware_offset(const void *const hw);
 /**
  * \brief Init irq param with the given tcc hardware instance
  */
-static void _tcc_init_irq_param(const void *const hw, void *dev)
+static void _talisds_init_irq_param(const void *const hw, void *dev)
 {
 	if (hw == TCC0) {
 		_tcc0_dev = (struct _pwm_device *)dev;
@@ -282,7 +282,7 @@ int32_t _tcc_pwm_init(struct _pwm_device *const device, void *const hw)
 
 	hri_tcc_clear_CTRLB_LUPD_bit(hw);
 
-	_tcc_init_irq_param(hw, (void *)device);
+	_talisds_init_irq_param(hw, (void *)device);
 	NVIC_DisableIRQ((IRQn_Type)((uint8_t)TCC0_IRQn + _get_hardware_offset(hw)));
 	NVIC_ClearPendingIRQ((IRQn_Type)((uint8_t)TCC0_IRQn + _get_hardware_offset(hw)));
 	NVIC_EnableIRQ((IRQn_Type)((uint8_t)TCC0_IRQn + _get_hardware_offset(hw)));

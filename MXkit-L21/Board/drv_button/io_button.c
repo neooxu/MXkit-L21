@@ -19,6 +19,7 @@
 #include <hal_ext_irq.h>
 #include <hpl_gpio.h>
 #include "io_button.h"
+#include "mx_hal.h"
 
 /*-------------------------------- VARIABLES ---------------------------------*/
 
@@ -31,11 +32,11 @@ void button_irq_handler(btn_instance_t * const btn)
 
     if ( gpio_get_pin_level(GPIO(btn->port, btn->pin)) == ((btn->idle == IOBUTTON_IDLE_STATE_HIGH) ? 0 : 1) ) {
         
-        btn->start_time = ms_ticker_read();
+        btn->start_time = mx_hal_ms_ticker_read();
         btn->timer_enabled = true;
     }
     else {
-        interval = (int) ms_ticker_read() - btn->start_time;
+        interval = (int) mx_hal_ms_ticker_read() - btn->start_time;
         if ( (btn->start_time != 0) && interval > 50 && interval < btn->long_pressed_timeout ) {
             /* button clicked once */
             btn->clicked = true;
@@ -58,7 +59,7 @@ void button_srv(btn_instance_t * const btn)
 
 	}
 	else if (btn->timer_enabled == true) {
-		int interval = ms_ticker_read() - btn->start_time;
+		int interval = mx_hal_ms_ticker_read() - btn->start_time;
 		
 		if (btn->long_pressed_timeout < interval){
 			btn->timer_enabled = false;

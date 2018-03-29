@@ -1,7 +1,7 @@
 
 
-#ifndef _EMW_ALICLOUD_DB_H_
-#define _EMW_ALICLOUD_DB_H_
+#ifndef _EMH_ALICLOUD_DB_H_
+#define _EMH_ALICLOUD_DB_H_
 
 #include "mx_common.h"
 #include "mx_debug.h"
@@ -28,18 +28,15 @@ typedef union {
 	char*		dateValue;
 } ali_att_val;
 
-typedef mx_status (*alicloud_read_attr)(ali_att_val *value);
-typedef mx_status (*alicloud_write_attr)(ali_att_val value);
+typedef mx_status (*alisds_read_attr)(ali_att_val *value);
+typedef mx_status (*alisds_write_attr)(ali_att_val value);
 
 typedef struct _ali_dev_attr_t {
 	char*					name;
 	ali_att_type_e			att_type;
-	alicloud_read_attr		read_func;
-	alicloud_write_attr		write_func;
+	alisds_read_attr		read_func;
+	alisds_write_attr		write_func;
 } ali_dev_attr_t;
-
-extern const ali_dev_attr_t alicloud_attr_db[];
-
 
 #ifdef __cplusplus
 } /* extern "C" */

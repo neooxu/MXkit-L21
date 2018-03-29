@@ -38,6 +38,7 @@ int ATCmdParser_read(char *data, int size);
 bool ATCmdParser_process_oob(void);
 
 int ATCmdParser_analyse_args(char args[], char *arg_list[], int list_size);
+int ATCmdParser_write(const char *data, int size);
 
 #ifdef __cplusplus
 } /* extern "C" */

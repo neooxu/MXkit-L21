@@ -1,29 +1,19 @@
 
-#ifndef _CLOUD_CHAT_H_
-#define _CLOUD_CHAT_H_
 
-#include "emw_api.h"
-#include "emw_alicloud_db.h"
+#ifndef _MAIN_H_
+#define _MAIN_H_
+
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 
 #define APP_DEBUG MX_DEBUG_ON
-#define cc_log(M, ...) MX_LOG(APP_DEBUG, "CC", M, ##__VA_ARGS__)
+#define app_log(M, ...) MX_LOG(APP_DEBUG, "APP", M, ##__VA_ARGS__)
 
-typedef enum
-{
-	eState_M1_initialize           = 1,
-	eState_M2_provision            = 2,
-	eState_M3_normal               = 3,
-	eState_M4_disconnected         = 4,
-	eState_M5_fault                = 5,
-} cc_device_state_e;
-
-typedef struct {
-	cc_device_state_e device_state;
-	emw_arg_ali_conn_e cloud_state;
-	bool delay_prov;
-} cc_context_t;
-
-typedef enum
+enum
 {
 	ALI_HANDLE_CURRENT_HUMIDITY,
 	ALI_HANDLE_CURRENT_TEMPERATURE,
@@ -35,17 +25,19 @@ typedef enum
 	ALI_HANDLE_IO_SWITCH_2,
 	ALI_HANDLE_CONSOLE,
 	ALI_HANDLE_MAX,
-	ALI_HANDLE_NONE = -1,
-}cc_device_handles;
+};
 
-uint8_t cc_init(void);
-//void Process_InputData(uint8_t* data_buffer, uint16_t Nb_bytes);
-mx_status cc_tick(void);
+mx_status rgbled_task_init(void);
+mx_status SHT20_task_init(void);
+mx_status switch_task_init(void);
+mx_status console_task_init(void);
+
+void SHT20_task(void);
+void switch_task(void);
 
 /* Attribute handlers */
 mx_status handle_read_cur_humidity		(ali_att_val *value);
 mx_status handle_read_cur_temperature	(ali_att_val *value);
-
 
 mx_status handle_read_cur_saturation	(ali_att_val *value);
 mx_status handle_read_cur_bright		(ali_att_val *value);
@@ -68,11 +60,11 @@ mx_status handle_write_cur_saturation	(ali_att_val value);
 mx_status handle_write_cur_bright		(ali_att_val value);
 mx_status handle_write_cur_hue			(ali_att_val value);
 
+void OLED_ShowStatusString(const char *status_str);
 
-void alicloud_indicate_handle			(int handle);
-void alicloud_indicate_local_atts		(int attr_handles[], int num);
 
-void alicloud_provision(void);
-void alicloud_restore(void);
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif

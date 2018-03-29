@@ -1,13 +1,11 @@
 
 #include <stdio.h>
-#include "oled.h"
-#include "color_led.h"
-#include "sht2x.h"
+#include "drv_board.h"
 
-void board_init(void)
+void drv_board_init(void)
 {
 	/* System time ticker */
-	ms_ticker_init();
+	mx_hal_ms_ticker_init();
 	
 	/* RGB color led initialize */
 	color_led_init();

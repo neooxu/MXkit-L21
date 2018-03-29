@@ -1,7 +1,6 @@
 #include <atmel_start.h>
-#include "oled.h"
-#include "color_led.h"
-#include "sht2x.h"
+#include <string.h>
+#include "drv_board.h"
 
 char sensor_display[2][OLED_DISPLAY_MAX_CHAR_PER_ROW + 1];
 const char TEST_AT_CMD[] = "AT+FWVER?\r";
@@ -14,7 +13,7 @@ static void rx_cb_USART_AT(const struct usart_async_descriptor *const io_descr)
 
 int32_t at_read_result(struct io_descriptor *const io_descr, uint8_t *const buf, const uint16_t length, uint32_t timeout)
 {
-	uint32_t current = ms_ticker_read();
+	uint32_t current = mx_hal_ms_ticker_read();
 	uint16_t offset = 0, remain = length;
 	uint32_t n;
 	do {
@@ -22,7 +21,7 @@ int32_t at_read_result(struct io_descriptor *const io_descr, uint8_t *const buf,
 		offset += n;
 		remain -= n;
 		
-		if ((ms_ticker_read() - current) > timeout)
+		if ((mx_hal_ms_ticker_read() - current) > timeout)
 			break;
 	} while(remain);
 	
@@ -37,7 +36,7 @@ void board_test(void)
 	int i = 0;
 	int32_t n;
 
-	board_init();
+	drv_board_init();
 		
 	//USART_AT_example();
 	usart_async_register_callback(&USART_AT, USART_ASYNC_RXC_CB, rx_cb_USART_AT);
@@ -68,8 +67,8 @@ void board_test(void)
 		
 		n = at_read_result(io, TEST_AT_CMD_RETURN, 100, 100);
 		TEST_AT_CMD_RETURN[n]=0x0;
-		printf("[Time: %d] %s\r\n", ms_ticker_read(), TEST_AT_CMD_RETURN);
+		printf("[Time: %d] %s\r\n", (int)mx_hal_ms_ticker_read(), TEST_AT_CMD_RETURN);
 		
-		delay_ms(1000);
+		mx_hal_delay_ms(1000);
 	}
 }

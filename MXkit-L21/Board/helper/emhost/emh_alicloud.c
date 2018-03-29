@@ -1,15 +1,13 @@
 #include <stdlib.h>
 #include <string.h>
-#include "mx_debug.h"
-#include "mx_common.h"
-#include "emw_api.h"
-#include "ATCmdParser.h"
-#include "emw_alicloud_db.h"
 
-mx_status emw_ali_config(const emw_ali_config_t* config)
+#include "emh_api.h"
+#include "ATCmdParser/ATCmdParser.h"
+
+mx_status emh_ali_config(const emh_ali_config_t* config)
 {
 	char args[200], *arg_list[5];
-	const char* format_arg = emw_arg_for_type(EMW_ARG_ALI_FORMAT, config->product_info.format);
+	const char* format_arg = emh_arg_for_type(EMH_ARG_ALI_FORMAT, config->product_info.format);
 	
 	/* Check product info*/
 	if (!(ATCmdParser_send("AT+ALINKPRODUCT?")
@@ -61,7 +59,7 @@ mx_status emw_ali_config(const emw_ali_config_t* config)
 	return kNoErr; 
 }
 
-mx_status emw_ali_set_key (const char *dev_key, const char *dev_sec)
+mx_status emh_ali_set_key (const char *dev_key, const char *dev_sec)
 {
 	if (ATCmdParser_send("AT+ALINKSDS=%s,%s", dev_key, dev_sec)
 	 && ATCmdParser_recv("OK\r\n")) {
@@ -70,7 +68,7 @@ mx_status emw_ali_set_key (const char *dev_key, const char *dev_sec)
 	return kGeneralErr;
 }
 
-mx_status emw_ali_start_service(void)
+mx_status emh_ali_start_service(void)
 {
 	if (ATCmdParser_send("AT+ALINKSTART")
      && ATCmdParser_recv("OK\r\n")) {
@@ -79,20 +77,20 @@ mx_status emw_ali_start_service(void)
 	return kGeneralErr;
 }
 
-emw_arg_ali_status_e emw_ali_get_status(void)
+emh_arg_ali_status_e emh_ali_get_status(void)
 {
 	char arg[20];
 
 	if (!(ATCmdParser_send("AT+ALINKSTATUS?")
 	   && ATCmdParser_recv("+ALINKSTATUS:%20[^\r]\r\n",arg)
 	   && ATCmdParser_recv("OK\r\n"))) {
-		return EMW_ARG_ERR;
+		return EMH_ARG_ERR;
 	}
 	
-	return emw_arg_for_arg( EMW_ARG_ALI_STATUS, arg);
+	return emh_arg_for_arg( EMH_ARG_ALI_STATUS, arg);
 }
 
-mx_status emw_ali_provision(bool on)
+mx_status emh_ali_provision(bool on)
 {
 	if ((on? ATCmdParser_send("AT+ALINKAWSSTART"):
 		     ATCmdParser_send("AT+ALINKAWSSTOP"))
@@ -102,7 +100,7 @@ mx_status emw_ali_provision(bool on)
 	return kGeneralErr;
 }
 
-mx_status emw_ali_start_provision(void)
+mx_status emh_ali_start_provision(void)
 {
 	if (ATCmdParser_send("AT+ALINKAWSSTART")
      && ATCmdParser_recv("OK\r\n")) {
@@ -111,7 +109,7 @@ mx_status emw_ali_start_provision(void)
 	return kGeneralErr;
 }
 
-mx_status emw_ali_unbound(void)
+mx_status emh_ali_unbound(void)
 {
 	if (ATCmdParser_send("AT+ALINKUNBIND")
      && ATCmdParser_recv("OK\r\n")) {
@@ -120,7 +118,7 @@ mx_status emw_ali_unbound(void)
 	return kGeneralErr;
 }
 
-mx_status emw_ali_stop_provision(void)
+mx_status emh_ali_stop_provision(void)
 {
 	if (ATCmdParser_send("AT+ALINKAWSSTOP")
      && ATCmdParser_recv("OK\r\n")) {
@@ -129,54 +127,54 @@ mx_status emw_ali_stop_provision(void)
 	return kGeneralErr;
 }
 
-mx_status emw_ali_set_cloud_atts(emw_arg_ali_format_e format, uint8_t *data, int32_t len)
+mx_status emh_ali_set_cloud_atts(emh_arg_ali_format_e format, uint8_t *data, int32_t len)
 {
 	if (ATCmdParser_send("AT+ALINKSEND=%d", len)
 	 && ATCmdParser_recv(">")
-	 && ATCmdParser_write(data, len) == len
+	 && ATCmdParser_write((char *)data, len) == len
 	 && ATCmdParser_recv("OK\r\n")) {
 		return kNoErr;
 	}
 	return kGeneralErr;
 }
 
-void emw_ali_event_handler(void)
+void emh_ali_event_handler(void)
 {
 	mx_status err = kNoErr;
 	char arg1[10], arg2[10];
-	emw_arg_ali_format_e format;
-	emw_arg_ali_conn_e conn;
-	emw_ali_local_attrs_t attrs;
+	emh_arg_ali_format_e format;
+	emh_arg_ali_conn_e conn;
+	emh_ali_local_attrs_t attrs;
 
 	// parse out the packet
 	require_action(ATCmdParser_recv("%10[^,],", arg1), exit, err = kMalformedErr);
 		
-	emw_arg_ali_ev_e event = emw_arg_for_arg(EMW_ARG_ALI_EV, arg1);
-	require_action(event != EMW_ARG_ERR, exit,  err = kMalformedErr);
+	emh_arg_ali_ev_e event = emh_arg_for_arg(EMH_ARG_ALI_EV, arg1);
+	require_action(event != EMH_ARG_ERR, exit,  err = kMalformedErr);
 
 	/* ALINK Server connection event */
-	if (event == EMW_ARG_ALI_EV_ALINK) {
+	if (event == EMH_ARG_ALI_EV_ALINK) {
 		require_action(ATCmdParser_recv("%10[^\r]\r\n", arg2), exit, err = kMalformedErr);
-		conn = emw_arg_for_arg(EMW_ARG_ALI_CONN, arg2);
-		require_action(conn != EMW_ARG_ERR, exit, err = kMalformedErr);
-		emw_ev_ali_connection(conn);
+		conn = emh_arg_for_arg(EMH_ARG_ALI_CONN, arg2);
+		require_action(conn != EMH_ARG_ERR, exit, err = kMalformedErr);
+		emh_ev_ali_connection(conn);
 	}
 	/* ALINK server <=== attribute value=== device */
-	else if (event == EMW_ARG_ALI_EV_GET) {
+	else if (event == EMH_ARG_ALI_EV_GET) {
 		require_action(ATCmdParser_recv("%10[^\r]\r\n", arg2), exit, err = kMalformedErr);
-		format =  emw_arg_for_arg(EMW_ARG_ALI_FORMAT, arg2);
-		require_action(format != EMW_ARG_ERR, exit, err = kMalformedErr);
+		format =  emh_arg_for_arg(EMH_ARG_ALI_FORMAT, arg2);
+		require_action(format != EMH_ARG_ERR, exit, err = kMalformedErr);
 		
 		attrs.format = format;
 		attrs.data = NULL;
 		attrs.len = 0;
-		emw_ev_ali_get_local_atts(&attrs);
+		emh_ev_ali_get_local_atts(&attrs);
 	}
 	/* ALINK server === attribute value===> device */
-	else if (event == EMW_ARG_ALI_EV_SET) {
+	else if (event == EMH_ARG_ALI_EV_SET) {
 		require_action(ATCmdParser_recv("%10[^,],", arg2), exit, err = kMalformedErr);
-		format = emw_arg_for_arg(EMW_ARG_ALI_FORMAT, arg2);
-		require_action(format != EMW_ARG_ERR, exit, err = kMalformedErr);
+		format = emh_arg_for_arg(EMH_ARG_ALI_FORMAT, arg2);
+		require_action(format != EMH_ARG_ERR, exit, err = kMalformedErr);
 		
 		/* Read package data */
 		int32_t count;
@@ -184,17 +182,17 @@ void emw_ali_event_handler(void)
 
 		uint8_t *data = malloc(count);
 		require_action(data, exit, err = kNoMemoryErr);
-		require_action(ATCmdParser_read(data, count) == count, exit, err = kTimeoutErr);
+		require_action(ATCmdParser_read((char *)data, count) == count, exit, err = kTimeoutErr);
 
 		attrs.data = data;
 		attrs.format = format;
 		attrs.len = count;
-		emw_ev_ali_set_local_atts(&attrs);
+		emh_ev_ali_set_local_atts(&attrs);
 		free(data);
 	}
 	
 exit:
-	if (err == kMalformedErr) emw_ev_unknown();
+	if (err == kMalformedErr) emh_ev_unknown();
 	return;
 }
 
