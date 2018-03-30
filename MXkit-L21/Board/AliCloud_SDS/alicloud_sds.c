@@ -117,8 +117,8 @@ static mx_status _handle_state_initialize(void)
 	require_noerr(err, exit);
 	
 	/* Set cloud access token */
-	err = emh_ali_set_key(dev_key, dev_sec);
-	require_noerr(err, exit);
+	//err = emh_ali_set_key(dev_key, dev_sec);
+	//require_noerr(err, exit);
 	
 	/* Start alisds daemon service*/
 	err = emh_ali_start_service();

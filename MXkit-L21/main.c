@@ -51,10 +51,11 @@ int main(void)
 	//board_test();
 	//ATCmdParser_test();
 	drv_board_init();
+	OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_1, "Microchip");
+
 	err = alisds_init(ALI_HANDLE_MAX);
 	require_noerr(err, exit);
 	
-	OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_1, "Microchip");
 
 	rgbled_task_init();
 	SHT20_task_init();
