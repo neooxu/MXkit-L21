@@ -30,7 +30,7 @@ typedef struct {
 typedef int cc_device_handle;
 
 
-mx_status alisds_init(int num_handles);
+mx_status alisds_init(const emh_ali_config_t *config, int num_handles);
 //void Process_InputData(uint8_t* data_buffer, uint16_t Nb_bytes);
 mx_status alisds_loop(void);
 

@@ -6,6 +6,22 @@
 #include "drv_board.h"
 #include "main.h"
 
+const emh_ali_config_t alisds_config =
+{
+	.product_info = {
+		.name			= "microchip-002",
+		.modle			= "MICROCHIP_LIVING_AIRBOX_MICROCHIP_002",
+		.key			= "Dkqt9OjYC0u0DIWGajKP",
+		.secret			= "ciubDzkEOKVi0WS2VZzqAGGIgdmW1dsSatitz6Ie",
+		.format			= EMH_ARG_ALI_FORMAT_JSON,
+	},
+	.dev_info = {
+		.type			= "AIRBOX",
+		.category		= "LIVING",
+		.manufacture	= "MICROCHIP",
+	}
+};
+
 void usr_btn_isr(void);
 void usr_clicked_handler(void);
 void usr_long_pressed_handler(void);
@@ -53,7 +69,7 @@ int main(void)
 	drv_board_init();
 	OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_1, "Microchip");
 
-	err = alisds_init(ALI_HANDLE_MAX);
+	err = alisds_init(&alisds_config, ALI_HANDLE_MAX);
 	require_noerr(err, exit);
 	
 

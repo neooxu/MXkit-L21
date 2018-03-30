@@ -13,21 +13,7 @@
 #define APP_DEBUG MX_DEBUG_ON
 #define sds_log(M, ...) MX_LOG(APP_DEBUG, "SDS", M, ##__VA_ARGS__)
 
-const emh_ali_config_t ali_config =
-{
-	.product_info = {
-		.name			= "microchip-002",
-		.modle			= "MICROCHIP_LIVING_AIRBOX_MICROCHIP_002",
-		.key			= "Dkqt9OjYC0u0DIWGajKP",
-		.secret			= "ciubDzkEOKVi0WS2VZzqAGGIgdmW1dsSatitz6Ie",
-		.format			= EMH_ARG_ALI_FORMAT_JSON,
-	},
-	.dev_info = {
-		.type			= "AIRBOX",
-		.category		= "LIVING",
-		.manufacture	= "MICROCHIP",
-	}
-};
+static const emh_ali_config_t *ali_config = NULL;
 
 //BBED
 //const char *dev_key = "R41Qd1Rm9CMtWWmUIsTM";
@@ -64,7 +50,7 @@ const char* oled_ali_disconnect_line="Cloud disconnected";
 
 extern const char oled_clear_line[OLED_DISPLAY_MAX_CHAR_PER_ROW];
 		
-mx_status alisds_init(int num_handles)
+mx_status alisds_init(const emh_ali_config_t *config, int num_handles)
 {
 	mx_status err = kNoErr;
 	
@@ -83,6 +69,8 @@ mx_status alisds_init(int num_handles)
 	context.cloud_state = EMH_ARG_ALI_CONN_DISCONNECTED;
 	context.delay_prov = false;
 	context.num_handles = num_handles;
+	
+	ali_config = config;
 	
 	err = emh_module_init();
 	require_noerr(err, exit);
@@ -113,7 +101,7 @@ static mx_status _handle_state_initialize(void)
 
 	sds_log("FW version: %s", emh_module_get_fw_version());
 
-	err = emh_ali_config(&ali_config);
+	err = emh_ali_config(ali_config);
 	require_noerr(err, exit);
 	
 	/* Set cloud access token */
