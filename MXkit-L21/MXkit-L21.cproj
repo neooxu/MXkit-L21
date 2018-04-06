@@ -355,7 +355,7 @@
   <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
   <armgcc.compiler.symbols.DefSymbols>
     <ListValues>
-      <Value>DEBUG</Value>
+      <Value>MX_DEBUG</Value>
       <Value>__FILENAME__='"%24(notdir %24&lt;)"'</Value>
     </ListValues>
   </armgcc.compiler.symbols.DefSymbols>
@@ -521,9 +521,6 @@
     <Compile Include="Board\drv_color_led\hsb2rgb.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\drv_color_led\hsb_led.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="Board\drv_sht20\sht2x.c">
       <SubType>compile</SubType>
     </Compile>
@@ -572,7 +569,13 @@
     <Compile Include="Board\helper\hal\mx_hal.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Board\helper\hal\mx_i2c.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Board\helper\hal\mx_serial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Board\helper\hal\mx_stdio.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Board\helper\hal\mx_tick.c">

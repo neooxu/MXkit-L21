@@ -2,12 +2,40 @@
 #ifndef _MX_TOOLCHAIN_H_
 #define _MX_TOOLCHAIN_H_
 
+/** MX_CONCAT
+ *  Concatenate tokens together
+ *
+ *  @note
+ *  Expands tokens before concatenation
+ *
+ *  @code
+ *  // Creates a unique label based on the line number
+ *  int MX_CONCAT(UNIQUE_LABEL_, __LINE__) = 1;
+ *  @endcode
+ */
+#define MX_CONCAT(a, b) MX_CONCAT_(a, b)
+#define MX_CONCAT_(a, b) a##b
+
+/** MX_STRINGIFY
+ *  Converts tokens into strings
+ *
+ *  @note
+ *  Expands tokens before stringification
+ *
+ *  @code
+ *  // Creates a string based on the parameters
+ *  const char *c = MX_STRINGIFY(This is a ridiculous way to create a string)
+ *  @endcode
+ */
+#define MX_STRINGIFY(a) MX_STRINGIFY_(a)
+#define MX_STRINGIFY_(a) #a
 
 // Warning for unsupported compilers
 #if !defined(__GNUC__)   /* GCC        */ \
  && !defined(__CC_ARM)   /* ARMCC      */ \
  && !defined(__clang__)  /* LLVM/Clang */ \
- && !defined(__ICCARM__) /* IAR        */
+ && !defined(__ICCARM__) /* IAR        */ \
+ && !defined(__TI_ARM__) /* TI		  */
 #warning "This compiler is not yet supported."
 #endif
 
@@ -66,7 +94,7 @@
  *  @endcode
  */
 #ifndef MX_UNUSED
-#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_UNUSED __attribute__((__unused__))
 #else
 #define MX_UNUSED
@@ -84,7 +112,7 @@
  *  @endcode
  */
 #ifndef MX_USED
-#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_USED __attribute__((used))
 #elif defined(__ICCARM__)
 #define MX_USED __root
@@ -137,7 +165,7 @@
  *  @endcode
  */
 #ifndef MX_PURE
-#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_PURE __attribute__((const))
 #else
 #define MX_PURE
@@ -156,7 +184,7 @@
  *  @endcode
  */
 #ifndef MX_NOINLINE
-#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_NOINLINE __attribute__((noinline))
 #elif defined(__ICCARM__)
 #define MX_NOINLINE _Pragma("inline=never")
@@ -178,7 +206,7 @@
  *  @endcode
  */
 #ifndef MX_FORCEINLINE
-#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_FORCEINLINE static inline __attribute__((always_inline))
 #elif defined(__ICCARM__)
 #define MX_FORCEINLINE _Pragma("inline=forced") static
@@ -200,7 +228,7 @@
  *  @endcode
  */
 #ifndef MX_NORETURN
-#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__clang__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_NORETURN __attribute__((noreturn))
 #elif defined(__ICCARM__)
 #define MX_NORETURN __noreturn
@@ -228,7 +256,7 @@
  *  @endcode
  */
 #ifndef MX_UNREACHABLE
-#if (defined(__GNUC__) || defined(__clang__)) && !defined(__CC_ARM)
+#if (defined(__GNUC__) || defined(__clang__)) && !defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_UNREACHABLE __builtin_unreachable()
 #else
 #define MX_UNREACHABLE while (1)
@@ -250,7 +278,7 @@
 #ifndef MX_DEPRECATED
 #if defined(__CC_ARM)
 #define MX_DEPRECATED(M) __attribute__((deprecated))
-#elif defined(__GNUC__) || defined(__clang__)
+#elif defined(__GNUC__) || defined(__clang__) || defined(__TI_ARM__)
 #define MX_DEPRECATED(M) __attribute__((deprecated(M)))
 #else
 #define MX_DEPRECATED(M)
@@ -287,7 +315,7 @@
  * @return Address of the calling function
  */
 #ifndef MX_CALLER_ADDR
-#if (defined(__GNUC__) || defined(__clang__)) && !defined(__CC_ARM)
+#if (defined(__GNUC__) || defined(__clang__)) && !defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_CALLER_ADDR() __builtin_extract_return_addr(__builtin_return_address(0))
 #elif defined(__CC_ARM)
 #define MX_CALLER_ADDR() __builtin_return_address(0)
@@ -297,7 +325,7 @@
 #endif
 
 #ifndef MX_SECTION
-#if (defined(__GNUC__) || defined(__clang__)) || defined(__CC_ARM)
+#if (defined(__GNUC__) || defined(__clang__)) || defined(__CC_ARM) || defined(__TI_ARM__) || defined(__TI_ARM__)
 #define MX_SECTION(name) __attribute__ ((section (name)))
 #elif defined(__ICCARM__)
 #define MX_SECTION(name) _Pragma(MX_STRINGIFY(location=name))
@@ -321,7 +349,7 @@
 #endif
 
 #ifndef MX_PRINTF
-#if defined(__GNUC__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_PRINTF(format_idx, first_param_idx) __attribute__ ((__format__(__printf__, format_idx, first_param_idx)))
 #else
 #define MX_PRINTF(format_idx, first_param_idx)
@@ -329,7 +357,7 @@
 #endif
 
 #ifndef MX_PRINTF_METHOD
-#if defined(__GNUC__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_PRINTF_METHOD(format_idx, first_param_idx) __attribute__ ((__format__(__printf__, format_idx+1, first_param_idx+1)))
 #else
 #define MX_PRINTF_METHOD(format_idx, first_param_idx)
@@ -337,7 +365,7 @@
 #endif
 
 #ifndef MX_SCANF
-#if defined(__GNUC__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_SCANF(format_idx, first_param_idx) __attribute__ ((__format__(__scanf__, format_idx, first_param_idx)))
 #else
 #define MX_SCANF(format_idx, first_param_idx)
@@ -345,7 +373,7 @@
 #endif
 
 #ifndef MX_SCANF_METHOD
-#if defined(__GNUC__) || defined(__CC_ARM)
+#if defined(__GNUC__) || defined(__CC_ARM) || defined(__TI_ARM__)
 #define MX_SCANF_METHOD(format_idx, first_param_idx) __attribute__ ((__format__(__scanf__, format_idx+1, first_param_idx+1)))
 #else
 #define MX_SCANF_METHOD(format_idx, first_param_idx)

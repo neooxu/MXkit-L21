@@ -64,14 +64,13 @@ int main(void)
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
 	
-	//board_test();
-	//ATCmdParser_test();
 	drv_board_init();
+	drv_board_test();
+	
 	OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_1, "Microchip");
 
 	err = alisds_init(&alisds_config, ALI_HANDLE_MAX);
 	require_noerr(err, exit);
-	
 
 	rgbled_task_init();
 	SHT20_task_init();
@@ -93,3 +92,5 @@ exit:
 	app_log("App exit reason %d", err);
 	while(1);
 }
+
+

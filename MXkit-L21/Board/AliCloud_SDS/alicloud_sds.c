@@ -1,6 +1,3 @@
-
-#include <atmel_start.h>
-
 #include "mx_debug.h"
 #include "emh_api.h"
 #include "alicloud_sds.h"
@@ -14,6 +11,22 @@
 #define sds_log(M, ...) MX_LOG(APP_DEBUG, "SDS", M, ##__VA_ARGS__)
 
 static const emh_ali_config_t *ali_config = NULL;
+
+typedef enum
+{
+	eState_M1_initialize           = 1,
+	eState_M2_provision            = 2,
+	eState_M3_normal               = 3,
+	eState_M4_disconnected         = 4,
+	eState_M5_fault                = 5,
+} cc_device_state_e;
+
+typedef struct {
+	cc_device_state_e device_state;
+	emh_arg_ali_conn_e cloud_state;
+	bool delay_prov;
+	int num_handles;
+} cc_context_t;
 
 //BBED
 //const char *dev_key = "R41Qd1Rm9CMtWWmUIsTM";
@@ -40,13 +53,6 @@ static ali_dev_attr_t *alisds_attr_db = NULL;
 
 static char incomming_val[SDS_ATTR_VAL_MAX_LEN];
 static char incomming_name[SDS_ATTR_NAME_MAX_LEN];
-
-
-const char* oled_wifi_connect_line="Wi-Fi connected";
-const char* oled_wifi_disconnect_line="Wi-Fi disconnected";
-const char* oled_config_line="Wi-Fi config....";
-const char* oled_ali_connect_line="Cloud connected";
-const char* oled_ali_disconnect_line="Cloud disconnected";
 
 extern const char oled_clear_line[OLED_DISPLAY_MAX_CHAR_PER_ROW];
 		
@@ -130,12 +136,12 @@ static mx_status _handle_state_initialize(void)
 	}
 	else {
 		sds_log("Wlan unconfigured, start provision mode");
-		
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_clear_line);
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_config_line);
+
 		/* Start alisds Wi-Fi configuration */
 		err = emh_ali_provision(true);
 		require_noerr(err, exit);
+		
+		alisds_event_handler(ALISDS_EVENT_WLAN_CONFIG_STARTED);
 		context.device_state = eState_M2_provision;
 	}
 	
@@ -198,12 +204,10 @@ void emh_ev_wlan(emh_arg_wlan_ev_e event)
 {
 	sds_log("Wlan event: %s", emh_arg_for_type(EMH_ARG_WLAN_EV, event));
 	if (event == EMH_ARG_WLAN_EV_STA_CONNECTED) {
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_clear_line);
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_wifi_connect_line);
+		alisds_event_handler(ALISDS_EVENT_WLAN_CONNECTED);
 	}
 	else if (event == EMH_ARG_WLAN_EV_STA_DISCONNECTED) {
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_clear_line);
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_wifi_disconnect_line);
+		alisds_event_handler(ALISDS_EVENT_WLAN_DISCONNECTED);
 	}
 }
 
@@ -221,8 +225,7 @@ void emh_ev_ali_connection(emh_arg_ali_conn_e conn)
 
 		
 		mx_hal_delay_ms(1000);
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_clear_line);
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_ali_connect_line);
+		alisds_event_handler(ALISDS_EVENT_CLOUD_CONNECTED);
 		
 		context.device_state = eState_M3_normal;
 		/* Alicloud get local value event do not trigger, so we trigger automatically */
@@ -232,8 +235,7 @@ void emh_ev_ali_connection(emh_arg_ali_conn_e conn)
 	}
 
 	if (conn == EMH_ARG_ALI_CONN_DISCONNECTED) {
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_clear_line);
-		OLED_ShowString(OLED_DISPLAY_COLUMN_START, OLED_DISPLAY_ROW_4, (char *)oled_ali_disconnect_line);
+		alisds_event_handler(ALISDS_EVENT_CLOUD_DISCONNECTED);
 		context.device_state = eState_M4_disconnected;
 	}
 }
@@ -436,10 +438,12 @@ void alisds_provision(void)
 
 void alisds_restore(void)
 {
-	if (context.device_state == eState_M2_provision) {
+	if (context.device_state == eState_M2_provision || context.device_state == eState_M3_normal) {
 		emh_ali_unbound();
 	}
 	
 	emh_module_restore_settings();
 	context.device_state = eState_M1_initialize;
 }
+
+

@@ -29,13 +29,13 @@
  *
  ******************************************************************************
  */
-
-#include "color_led.h"
-
+#include <stdlib.h>
+#include <compiler.h>
 #include <hpl_tcc_config.h>
 #include <hpl_tc_config.h>
-
 #include <hal_pwm.h>
+
+#include "color_led.h"
  
 /*-------------------------------------------------- USER INTERFACES ------------------------------------------------*/
 
@@ -48,7 +48,7 @@ void color_led_init( void )
 	/* PWM pins configured in driver_init.c */
 }
 
-void color_led_open(uint8_t red, uint8_t green, uint8_t blue)
+void color_led_open_rgb(uint8_t red, uint8_t green, uint8_t blue)
 {
 	/* 1M Hz PWM */
 	pwm_set_parameters(&PWM_R, CONF_TCC0_PER_REG, ((uint32_t)(((double)(double)CONF_TCC0_PER_REG * red) / 255)));
@@ -61,6 +61,7 @@ void color_led_open(uint8_t red, uint8_t green, uint8_t blue)
 
 void color_led_close(void)
 {
+	color_led_init();
 	pwm_disable(&PWM_R);
 	pwm_disable(&PWM_G);
 	pwm_disable(&PWM_B);

@@ -32,10 +32,9 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "mx_hal.h"
 #include "oled.h"
 #include "oledfont.h"  	 
-
-static uint8_t _oled_avalid = 0;
 
 /* SSD1106 I2C bus driver*/
 int ssd1106_i2c_bus_init(void);
@@ -109,7 +108,7 @@ void OLED_ShowChar(uint8_t x,uint8_t y,uint8_t chr)
   unsigned char c=0;	
   c=chr-' ';
   if(x>Max_Column-1){x=0;y=y+2;}
-  if(SIZE ==16)
+  if(CHAR_SIZE == 16)
   {
     OLED_Set_Pos(x,y);	
     OLED_WR_Bytes( (uint8_t *)&F8X16[c*16], 8, OLED_DATA );
@@ -150,7 +149,7 @@ void OLED_ShowNum(uint8_t x,uint8_t y,uint32_t num,uint8_t len,uint8_t size)
   }
 } 
 
-void OLED_ShowString(uint8_t x,uint8_t y,char *chr)
+void OLED_ShowString(uint8_t x,uint8_t y, const char *chr)
 {
   unsigned char j=0;
   uint8_t x_t = x,y_t = y;
@@ -231,8 +230,6 @@ void OLED_Init(void)
       return;
   }
   
-  _oled_avalid = 1;
-  
   OLED_WR_Byte(0xAE,OLED_CMD);//--turn off oled panel
   OLED_WR_Byte(0x00,OLED_CMD);//---set low column address
   OLED_WR_Byte(0x10,OLED_CMD);//---set high column address
@@ -274,20 +271,25 @@ void OLED_Init(void)
 
 /* I2C bus port */
 #include <driver_init.h>
-#include <hal_i2c_m_sync.h>
 
-extern struct i2c_m_sync_desc I2C_0;
+#include "mx_hal.h"
+
+static void *i2c = NULL;
+
+void ssd1106_delay_ms(uint16_t nms)
+{
+	mx_hal_delay_ms(nms);
+}
+
 
 int ssd1106_i2c_bus_init(void)
 {
-	I2C_0_init();
-	i2c_m_sync_set_baudrate(&I2C_0, 0, 100);
-	i2c_m_sync_enable(&I2C_0);
+	i2c = mx_hal_i2c_init(NULL);
 	
 	gpio_set_pin_level(LCD_RST, true);
-	delay_ms(100);
+	ssd1106_delay_ms(100);
 	gpio_set_pin_level(LCD_RST, false);
-	delay_ms(100);
+	ssd1106_delay_ms(100);
 	gpio_set_pin_level(LCD_RST, true);
 	  
 	return 0;
@@ -296,41 +298,11 @@ int ssd1106_i2c_bus_init(void)
 int ssd1106_i2c_bus_write(uint8_t reg_addr, uint8_t *reg_data, uint8_t cnt)
 {	
 	int ret = 0;
-	i2c_m_sync_set_slaveaddr(&I2C_0, 0x3c, 1);
-	ret = i2c_m_sync_cmd_write(&I2C_0, reg_addr, reg_data, cnt);
+	ret = mx_hal_i2c_cmd_write(i2c, 0x3c, reg_addr, reg_data, cnt);
 	
 	if( ret ) printf("ssd1106_i2c_bus_write err\r\n");
 	return ret;
 }
-
-void ssd1106_delay_ms(uint16_t nms)
-{
-  delay_ms(nms);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

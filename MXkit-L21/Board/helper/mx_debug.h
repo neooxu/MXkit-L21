@@ -49,7 +49,7 @@ extern "C" {
 
 #define YesOrNo(x) (x ? "YES" : "NO")
 
-#ifdef DEBUG
+#ifdef MX_DEBUG
 #ifndef MX_DISABLE_STDIO
     #define custom_log(N, M, ...) do {printf("[%s: %s:%4d] " M "\r\n",  N, SHORT_FILE, __LINE__, ##__VA_ARGS__);}while(0==1)
     #define custom_print(M, ...) do {printf( M, ##__VA_ARGS__);}while(0==1)
@@ -100,7 +100,7 @@ extern "C" {
 /** flag for LWIP_DEBUGF to disable that debug message */
 #define MX_DEBUG_OFF           0x00U
 
-#ifdef DEBUG
+#ifdef MX_DEBUG
 #define MX_LOG(D, T, M, ...) do { \
                                    if ( ((D) & MX_DEBUG_ON) && \
                                         ((D) & MX_DEBUG_TYPES_ON) && \

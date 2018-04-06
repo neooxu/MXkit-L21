@@ -3,10 +3,20 @@
 
 #include "mx_hal.h"
 
+#define MCU_DRVIER_RECV     0
+
 extern struct usart_async_descriptor USART_AT;
 static struct io_descriptor *io_at;
 static volatile bool tx_complete = true;
 static int _timeout = 100;
+
+#if MCU_DRVIER_RECV
+#define ATCOMMAND_RX_BUF_SIZE 1024
+
+uint8_t at_buffer[ATCOMMAND_RX_BUF_SIZE];
+struct ringbuffer at_rx;
+void SERIAL_RX_ISR(void);
+#endif
 
 static void rx_cb_USART_AT(const struct usart_async_descriptor *const io_descr)
 {
@@ -21,6 +31,11 @@ static void tx_cb_USART_AT(const struct usart_async_descriptor *const io_descr)
 void mx_hal_serial_init(int timeout)
 {
 	_timeout = timeout;
+	
+#if MCU_DRVIER_RECV
+	ringbuffer_init(&at_rx, at_buffer, ATCOMMAND_RX_BUF_SIZE);
+#endif
+	
 	usart_async_register_callback(&USART_AT, USART_ASYNC_RXC_CB, rx_cb_USART_AT);
 	usart_async_register_callback(&USART_AT, USART_ASYNC_TXC_CB, tx_cb_USART_AT);
 	usart_async_get_io_descriptor(&USART_AT, &io_at);
@@ -78,3 +93,33 @@ void mx_hal_serial_flush(void)
 	}
 	CRITICAL_SECTION_LEAVE()
 }
+
+/////////// MCU Serial driver, save data to ringbuffer, this function is already in ATMEL hal library //////////////
+#if MCU_DRVIER_RECV
+
+void SERIAL_RX_ISR(void)
+{
+	uint8_t RXData = mcu_hal_uart_recv();
+	ringbuffer_put(&at_rx, RXData);
+}
+
+
+static int32_t io_read(uint8_t *const buf, const uint16_t length)
+{
+	uint16_t                       was_read = 0;
+	uint32_t                       num;
+
+	if (buf == 0 || length == 0) return 0;
+
+	CRITICAL_SECTION_ENTER()
+	num = ringbuffer_num(&at_rx);
+	CRITICAL_SECTION_LEAVE()
+
+	while ((was_read < num) && (was_read < length)) {
+		ringbuffer_get(&at_rx, &buf[was_read++]);
+	}
+
+	return (int32_t)was_read;
+}
+
+#endif

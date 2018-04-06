@@ -1,25 +1,21 @@
 
 #include <stdio.h>
+
+
+#include "mx_hal.h"
 #include "sht2x.h"
 
 
-#include <driver_init.h>
-#include <hal_i2c_m_sync.h>
-
-
-extern struct i2c_m_sync_desc I2C_0;
-
+static void *i2c = NULL;
 
 int ht20_i2c_bus_write(uint8_t reg_addr, uint8_t *reg_data, uint8_t cnt)
 {
 	int ret = 0;
-	
-	i2c_m_sync_set_slaveaddr(&I2C_0, I2C_ADDR_W, 1);
-	
-	ret = i2c_m_sync_cmd_write(&I2C_0, reg_addr, reg_data, cnt);
-	
-	if( ret ) printf("ht20_i2c_bus_write err\r\n");
-	
+
+	ret = mx_hal_i2c_cmd_write(i2c, I2C_ADDR_W, reg_addr, reg_data, cnt);
+	require_noerr(ret, exit);
+
+exit:
 	return ret;
 }
 
@@ -27,24 +23,23 @@ int ht20_i2c_bus_write(uint8_t reg_addr, uint8_t *reg_data, uint8_t cnt)
 int ht20_i2c_bus_read(uint8_t reg_addr, uint8_t *reg_data, uint8_t cnt)
 {
 	int ret = 0;
-	i2c_m_sync_set_slaveaddr(&I2C_0, I2C_ADDR_W, 1);
-	
-	ret = i2c_m_sync_cmd_read(&I2C_0, reg_addr, reg_data, cnt);
-	
-	if( ret ) printf("ht20_i2c_bus_read err\r\n");
-	
+
+	ret = mx_hal_i2c_cmd_read(i2c, I2C_ADDR_R, reg_addr, reg_data, cnt);
+	require_noerr(ret, exit);
+
+exit:	
 	return ret;
 }
 
 
 uint8_t SHT2x_Init(void)
 {
-	uint8_t err;
-   	I2C_0_init();
-   	i2c_m_sync_set_baudrate(&I2C_0, 0, 100);
-   	i2c_m_sync_enable(&I2C_0);
+	uint8_t err = kNoErr;
+   	i2c = mx_hal_i2c_init(NULL);
 	   
 	err = SHT2x_SoftReset();
+	mx_hal_delay_ms(100);
+
 	return err;
 }
 
@@ -62,7 +57,7 @@ float SHT2x_GetTempPoll(void)
 	
 	ht20_i2c_bus_read(TRIG_TEMP_MEASUREMENT_POLL, tmp, 2);
 	ST = (tmp[0] << 8) | (tmp[1] << 0);
-	
+
 #if 0
     u8 ack, tmp1, tmp2;
     u16 i=0;
@@ -99,10 +94,10 @@ float SHT2x_GetHumiPoll(void)
 	float HUMI;
 	uint8_t tmp[2];
 	uint16_t SRH;
-		
+
 	ht20_i2c_bus_read(TRIG_HUMI_MEASUREMENT_POLL, tmp, 2);
 	SRH = (tmp[0] << 8) | (tmp[1] << 0);
-		
+
 #if 0
     float HUMI;
     u8 ack, tmp1, tmp2;

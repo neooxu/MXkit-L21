@@ -1,14 +1,13 @@
 #ifndef __SHT2x_H__
 #define __SHT2x_H__
 
-#include <compiler.h>
 
 #ifdef __cplusplus
  extern "C" {
 #endif
 
 #define  I2C_ADDR_W 0x40
-#define  I2C_ADDR_R 0x81
+#define  I2C_ADDR_R 0x40
 
 typedef enum {
     TRIG_TEMP_MEASUREMENT_HM   = 0xE3,
