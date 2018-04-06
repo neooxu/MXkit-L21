@@ -20,8 +20,8 @@ static const emh_ali_config_t *ali_config = NULL;
 //const char *dev_sec = "CnJ9c7DoRBgrAsVT9IHoYMz0LviLgWjw";
 
 //BBEA
-const char *dev_key = "eImkAqUT24v1VYO8fbmf";
-const char *dev_sec = "7qSOxEu7HcbDDa0LJSc0sHLVnEjnn3qZ";
+//const char *dev_key = "eImkAqUT24v1VYO8fbmf";
+//const char *dev_sec = "7qSOxEu7HcbDDa0LJSc0sHLVnEjnn3qZ";
 
 //BBE0
 //const char *dev_key = "R41Qd1Rm9CMtWWmUIsTM";
@@ -31,6 +31,10 @@ const char *dev_sec = "7qSOxEu7HcbDDa0LJSc0sHLVnEjnn3qZ";
 //microchip
 //const char *dev_key = "7UXu5dclxk6Gja8LzelT";
 //const char *dev_sec = "xXKxoAVPtTfeoP2DDwOnUB7ZxnIbuoaJ";
+
+//40EE
+const char *dev_key = "szZ2rUp6dWlu4U1si9iL";
+const char *dev_sec = "ixWEWMuRn8NPlk0DQ2B9SLDsdsEGyihD";
 
 
 cc_context_t context;
@@ -105,8 +109,8 @@ static mx_status _handle_state_initialize(void)
 	require_noerr(err, exit);
 	
 	/* Set cloud access token */
-	//err = emh_ali_set_key(dev_key, dev_sec);
-	//require_noerr(err, exit);
+	err = emh_ali_set_key(dev_key, dev_sec);
+	require_noerr(err, exit);
 	
 	/* Start alisds daemon service*/
 	err = emh_ali_start_service();
@@ -403,11 +407,11 @@ void alisds_provision(void)
 	char provision_ack[50];
 	
 	if (context.cloud_state == EMH_ARG_ALI_CONN_CONNECTED) {
-		snprintf(provision_ack, 50, "{\"prov\":{\"value\":\"%d\"}}", 0);
+		snprintf(provision_ack, 50, "{\"ErrorCode\":{\"value\":\"%d\"}}", 0);
 		err = emh_ali_set_cloud_atts(EMH_ARG_ALI_FORMAT_JSON, (uint8_t *)provision_ack, strlen(provision_ack));
 		require_noerr(err, exit);
 		
-		snprintf(provision_ack, 50, "{\"prov\":{\"value\":\"%d\"}}", 1);
+		snprintf(provision_ack, 50, "{\"ErrorCode\":{\"value\":\"%d\"}}", 1);
 		err = emh_ali_set_cloud_atts(EMH_ARG_ALI_FORMAT_JSON, (uint8_t *)provision_ack, strlen(provision_ack));
 		require_noerr(err, exit);
 		
@@ -436,10 +440,11 @@ void alisds_provision(void)
 
 void alisds_restore(void)
 {
-	if (context.device_state == eState_M2_provision) {
+	if (context.device_state == eState_M2_provision || context.device_state == eState_M3_normal ) {
 		emh_ali_unbound();
 	}
 	
 	emh_module_restore_settings();
 	context.device_state = eState_M1_initialize;
+	_reset_mcu();
 }

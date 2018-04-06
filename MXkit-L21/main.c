@@ -9,16 +9,16 @@
 const emh_ali_config_t alisds_config =
 {
 	.product_info = {
-		.name			= "microchip-002",
-		.modle			= "MICROCHIP_LIVING_AIRBOX_MICROCHIP_002",
-		.key			= "Dkqt9OjYC0u0DIWGajKP",
-		.secret			= "ciubDzkEOKVi0WS2VZzqAGGIgdmW1dsSatitz6Ie",
+		.name			= "tideveloper-001",
+		.modle			= "TI_LIVING_AIRBOX_TIDEVELOPER_001",
+		.key			= "0sB7jw6J4NA0HJGJfwrj",
+		.secret			= "r2jU6xdI8Itq7LqBzXI3HMvSPG8pJo35bXb1mcF9",
 		.format			= EMH_ARG_ALI_FORMAT_JSON,
 	},
 	.dev_info = {
 		.type			= "AIRBOX",
 		.category		= "LIVING",
-		.manufacture	= "MICROCHIP",
+		.manufacture	= "TI",
 	}
 };
 
