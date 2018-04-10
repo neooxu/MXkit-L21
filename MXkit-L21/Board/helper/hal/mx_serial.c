@@ -49,16 +49,10 @@ void mx_hal_serial_set_timeout(int timeout)
 
 int mx_hal_serial_putc(char c)
 {
-	uint32_t current = mx_hal_ms_ticker_read();
-	
-	do {
-		if(tx_complete) {
-			tx_complete = false;
-			return io_write(io_at, (uint8_t *)&c, 1) == 1 ? 0 : -1;
-		}
-	} while((mx_hal_ms_ticker_read() - current) < _timeout);
-
-	return -1;
+	io_write(io_at, (uint8_t *)&c, 1);
+	tx_complete = false;
+	while (tx_complete == false);
+	return 0;
 }
 
 int mx_hal_serial_getc(void)
