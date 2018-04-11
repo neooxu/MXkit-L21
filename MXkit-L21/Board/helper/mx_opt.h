@@ -50,6 +50,10 @@ extern "C" {
 #define CONFIG_APP_DEBUG                       MX_DEBUG_ON
 #endif
 
+#if !defined CONFIG_CLOUD_DEBUG
+#define CONFIG_CLOUD_DEBUG                     MX_DEBUG_ON
+#endif
+
 
 #ifdef __cplusplus
 } /*extern "C" */

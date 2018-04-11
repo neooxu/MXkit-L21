@@ -494,9 +494,6 @@
     <Compile Include="Board\AliCloud_SDS\alicloud_sds.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\AliCloud_SDS\alicloud_sds_db.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="Board\drv_board_test.c">
       <SubType>compile</SubType>
     </Compile>
@@ -545,7 +542,7 @@
     <Compile Include="Board\helper\emhost\ATCmdParser\ATCmdParserTest.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\helper\emhost\emh_alicloud.c">
+    <Compile Include="Board\helper\emhost\emh_alisds.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Board\helper\emhost\emh_api.h">

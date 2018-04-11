@@ -1,17 +1,26 @@
 /**
  ******************************************************************************
- * @file    button.h
- * @author  Eshen Wang
+ * @file    io_button.h
+ * @author  William Xu
  * @version V1.0.0
- * @date    1-May-2015
- * @brief   user key operation.
+ * @date    9-Apr-2018
+ * @brief   GPIO button driver header file
  ******************************************************************************
- *  UNPUBLISHED PROPRIETARY SOURCE CODE
- *  Copyright (c) 2016 MXCHIP Inc.
  *
- *  The contents of this file may not be disclosed to third parties, copied or
- *  duplicated in any form, in whole or in part, without the prior written
- *  permission of MXCHIP Corporation.
+ * Copyright (c) 2009-2018 MXCHIP Co.,Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
  ******************************************************************************
  */
 
@@ -22,25 +31,11 @@
 extern "C" {
 #endif
 
+/** \addtogroup drivers */
+/** @{*/
 
-/** @addtogroup MICO_Drivers_interface
-  * @{
-  */
-    
-/** @defgroup MICO_keypad_Driver MiCO keypad Driver
-  * @brief Provide driver interface for keypad devices
-  * @{
-  */
-
-
-/** @addtogroup MICO_keypad_Driver
-  * @{
-  */
-/** @defgroup MICO_Button_Driver MiCO Button Driver
-  * @brief Provide driver interface for button
-  * @{
-  */
-
+/** \addtogroup IO_Button */
+/** @{*/
 
 //--------------------------------  pin defines --------------------------------
 
@@ -74,16 +69,16 @@ typedef struct {
 /**
  * @brief Initialize button device.
  *
- * @param btn: button driver context data, should be persist at button's life time
+ * @param[in] btn: button driver context data, should be persist at button's life time
  *
- * @return none
+ * @return    none
  */
 void button_init(btn_instance_t * const btn);
 
 /**
  * @brief Button driver service, should be called in main loop.
  *
- * @param btn: button driver context data, should be persist at button's life time
+ * @param[in] btn: button driver context data, should be persist at button's life time
  *
  * @return none
  */
@@ -92,30 +87,18 @@ void button_srv(btn_instance_t * const btn);
 /**
  * @brief This function should be called by IRQ routine.
  *
- * @param btn: button driver context data, should be persist at button's life time
+ * @param[in] btn: button driver context data, should be persist at button's life time
  *
  * @return none
  */
 void button_irq_handler(btn_instance_t * const btn);
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
+/** @}*/
+/** @}*/
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // __BUTTON_H_
+#endif  // _IO_BUTTON_H_
+

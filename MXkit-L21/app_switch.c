@@ -13,18 +13,18 @@ static bool  switch_2 = false;
 
 mx_status switch_task_init(void)
 {
-	ali_dev_attr_t attr;
+	alisds_attr_t attr;
 	switch_1 = gpio_get_pin_level(SW_1);
 	switch_2 = gpio_get_pin_level(SW_2);
 	
 	attr.name = "switch1";
-	attr.att_type = ALI_ATT_TYPE_BOOL;
+	attr.type = ALI_ATT_TYPE_BOOL;
 	attr.read_func = handle_read_cur_switch_1;
 	attr.write_func = NULL;
 	alisds_attr_init(ALI_HANDLE_IO_SWITCH_1, attr);
 
 	attr.name = "switch2";
-	attr.att_type = ALI_ATT_TYPE_BOOL;
+	attr.type = ALI_ATT_TYPE_BOOL;
 	attr.read_func = handle_read_cur_switch_2;
 	attr.write_func = NULL;
 	alisds_attr_init(ALI_HANDLE_IO_SWITCH_2, attr);
@@ -47,13 +47,13 @@ void switch_task(void)
 
 
 /* Switch attribute handlers */
-mx_status handle_read_cur_switch_1		(ali_att_val *value)
+mx_status handle_read_cur_switch_1		(ali_att_val_t *value)
 {
 	(*value).boolValue = (switch_1==true)? false:true;
 	return kNoErr;
 }
 
-mx_status handle_read_cur_switch_2		(ali_att_val *value)
+mx_status handle_read_cur_switch_2		(ali_att_val_t *value)
 {
 	(*value).boolValue = (switch_2==true)? false:true;
 	return kNoErr;

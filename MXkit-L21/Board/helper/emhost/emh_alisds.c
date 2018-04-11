@@ -4,7 +4,7 @@
 #include "emh_api.h"
 #include "ATCmdParser/ATCmdParser.h"
 
-mx_status emh_ali_config(const emh_ali_config_t* config)
+mx_status emh_alisds_config(const emh_alisds_config_t* config)
 {
 	char args[200], *arg_list[5];
 	const char* format_arg = emh_arg_for_type(EMH_ARG_ALI_FORMAT, config->product_info.format);
@@ -59,7 +59,7 @@ mx_status emh_ali_config(const emh_ali_config_t* config)
 	return kNoErr; 
 }
 
-mx_status emh_ali_set_key (const char *dev_key, const char *dev_sec)
+mx_status emh_alisds_set_key (const char *dev_key, const char *dev_sec)
 {
 	if (ATCmdParser_send("AT+ALINKSDS=%s,%s", dev_key, dev_sec)
 	 && ATCmdParser_recv("OK\r\n")) {
@@ -68,7 +68,7 @@ mx_status emh_ali_set_key (const char *dev_key, const char *dev_sec)
 	return kGeneralErr;
 }
 
-mx_status emh_ali_start_service(void)
+mx_status emh_alisds_start_service(void)
 {
 	if (ATCmdParser_send("AT+ALINKSTART")
      && ATCmdParser_recv("OK\r\n")) {
@@ -77,7 +77,7 @@ mx_status emh_ali_start_service(void)
 	return kGeneralErr;
 }
 
-emh_arg_ali_status_e emh_ali_get_status(void)
+emh_arg_ali_status_e emh_alisds_get_status(void)
 {
 	char arg[20];
 
@@ -90,7 +90,7 @@ emh_arg_ali_status_e emh_ali_get_status(void)
 	return emh_arg_for_arg( EMH_ARG_ALI_STATUS, arg);
 }
 
-mx_status emh_ali_provision(bool on)
+mx_status emh_alisds_provision(bool on)
 {
 	if ((on? ATCmdParser_send("AT+ALINKAWSSTART"):
 		     ATCmdParser_send("AT+ALINKAWSSTOP"))
@@ -109,7 +109,7 @@ mx_status emh_ali_start_provision(void)
 	return kGeneralErr;
 }
 
-mx_status emh_ali_unbound(void)
+mx_status emh_alisds_unbound(void)
 {
 	if (ATCmdParser_send("AT+ALINKUNBIND")
      && ATCmdParser_recv("OK\r\n")) {
@@ -127,7 +127,7 @@ mx_status emh_ali_stop_provision(void)
 	return kGeneralErr;
 }
 
-mx_status emh_ali_set_cloud_atts(emh_arg_ali_format_e format, uint8_t *data, int32_t len)
+mx_status emh_alisds_set_cloud_atts(emh_arg_ali_format_e format, uint8_t *data, int32_t len)
 {
 	if (ATCmdParser_send("AT+ALINKSEND=%d", len)
 	 && ATCmdParser_recv(">")

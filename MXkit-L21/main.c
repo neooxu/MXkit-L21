@@ -6,7 +6,7 @@
 #include "drv_board.h"
 #include "main.h"
 
-const emh_ali_config_t alisds_config =
+const emh_alisds_config_t alisds_config =
 {
 	.product_info = {
 		.name			= "microchip-002",
@@ -82,7 +82,7 @@ int main(void)
 	while(1)
 	{
 		/* Application tick */
-		alisds_loop();
+		alisds_runloop();
 		SHT20_task();
 		switch_task();
 		button_srv(&usr_btn);

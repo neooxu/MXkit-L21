@@ -15,8 +15,8 @@ extern "C"
 #endif
 
 /* Module controller */
-mx_status	emh_module_init				(void);
-void		emh_module_task				(void);
+mx_status	emh_init				(void);
+void		emh_runloop			(void);
 
 mx_status	ewh_module_reset			(void);
 const char* emh_module_get_fw_version	(void);
@@ -43,16 +43,16 @@ typedef struct{
 		const char*				category;
 		const char*				manufacture;
 	} dev_info ;
-} emh_ali_config_t;
+} emh_alisds_config_t;
 
-mx_status				emh_ali_config			(const emh_ali_config_t *config);
-mx_status				emh_ali_start_service	(void);
-mx_status				emh_ali_provision		(bool on);
-emh_arg_ali_status_e	emh_ali_get_status		(void);
-mx_status				emh_ali_set_cloud_atts	(emh_arg_ali_format_e format, uint8_t *data, int32_t len);
-mx_status				emh_ali_set_key         (const char *dev_key, const char *dev_sec);
+mx_status				emh_alisds_config			(const emh_alisds_config_t *config);
+mx_status				emh_alisds_start_service	(void);
+mx_status				emh_alisds_provision		(bool on);
+emh_arg_ali_status_e	emh_alisds_get_status		(void);
+mx_status				emh_alisds_set_cloud_atts	(emh_arg_ali_format_e format, uint8_t *data, int32_t len);
+mx_status				emh_alisds_set_key			(const char *dev_key, const char *dev_sec);
 
-mx_status				emh_ali_unbound			(void);
+mx_status				emh_alisds_unbound			(void);
 
 
 

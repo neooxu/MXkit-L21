@@ -45,7 +45,7 @@ mx_status emh_module_restore_settings(void)
 	return kGeneralErr;
 }
 
-mx_status emh_module_init(void)
+mx_status emh_init(void)
 {
 	ATCmdParser_init("\r","\r\n", 1000, false);
 		
@@ -81,6 +81,6 @@ uint32_t emh_module_get_tick(void)
 	return tick;	
 }
 
-void emh_module_task(void) {
+void emh_runloop(void) {
 	while (ATCmdParser_process_oob());
 }
