@@ -36,12 +36,18 @@
 /** \addtogroup Alicloud_SDS_Service */
 /** @{*/
 
+/******************************************************************************
+ *                                 Constants
+ ******************************************************************************/
+
 #define ALISDS_INVALID_HANDLE  (-1)			
 
 #define ALISDS_ATTR_VAL_MAX_LEN  (1024)	/**< Max possible attr value length, reduce to save memory */
 #define ALISDS_ATTR_NAME_MAX_LEN (64)	/**< Max possible attr name length, reduce to save memory */
 
-typedef int alisds_attr_handle_t;
+/******************************************************************************
+ *                                 Enumerations
+ ******************************************************************************/
 
 /** Alicloud sds service events */
 enum alisds_event_e{
@@ -64,6 +70,12 @@ enum alisds_att_type_e{
 };
 typedef uint8_t alisds_att_type_t;	/**< Alicloud sds attribute types (see #alisds_att_type_e) */
 
+/******************************************************************************
+ *                               Type Definitions
+ ******************************************************************************/
+
+typedef int alisds_attr_handle_t;
+
 /** Alicloud sds attribute value */
 typedef union {
 	bool		boolValue;
@@ -72,6 +84,10 @@ typedef union {
 	char*		stringValue;
 	char*		dateValue;
 } ali_att_val_t;
+
+/******************************************************************************
+ *                             Function Declarations
+ ******************************************************************************/
 
 /**
  * Cloud read attribute handler
@@ -99,13 +115,19 @@ typedef struct {
 	alisds_write_attr		write_func;		/**< Attribute value write handler, optional if the value is writable */
 } alisds_attr_t;
 
+
+/******************************************************************************
+ *                             Function Declarations
+ ******************************************************************************/
+
 /**
- * @brief	        Initialize EMW module with product info registered on cloud console;, 
- *                  Allocate memory for SDS attr handle database. 
+ * @brief	        Initialize EMW module with product info registered on cloud 
+ *                  console, allocate memory for SDS attr handle database. 
  * 	                Should be called before attr initialize see #alisds_attr_init
  * 
  * @param[in]       config       : SDS product info registered on cloud console
- * @param[in]       num_handles  : The max. attribute numbers, required to allocate memory for attr database
+ * @param[in]       num_handles  : The max. attribute numbers, required to allocate 
+ *                                 memory for attr database
  *
  * @return      	status
  *
@@ -125,10 +147,10 @@ mx_status alisds_attr_init(alisds_attr_handle_t handle, alisds_attr_t attr);
 
 /**
  *
- * @brief        	Alicould sds service runloop, application should called periodically to handle events 
- *                  and transfer data.
- *                  To save power, also can be called when uart data is ready to receive or sensor data is 
- *                  ready to send to cloud
+ * @brief        	Alicould sds service runloop, application should called  
+ *                  periodically to handle events and transfer data.
+ *                  To save power, also can be called when uart data is ready 
+ *                  to receive or sensor data is ready to send to cloud
  * @note            Never call this function in event handler
  * 
  * @return      	status
@@ -138,9 +160,11 @@ mx_status alisds_runloop(void);
 
 /**
  *
- * @brief           Prepare to send attribute to cloud, attribute value will be read and send in SDS runloop alisds_runloop
- * @note            This function do not send data use AT command, so it can be called inside the event handler. #alisds_runloop
- * 	                will do the actually read and send function.
+ * @brief           Prepare to send attribute to cloud, attribute value will 
+ *                  be read and send in SDS runloop alisds_runloop
+ * @note            This function do not send data use AT command, so it can 
+ * 	                be called inside the event handler. #alisds_runloop will 
+ *                  do the actually read and send function.
  * 
  * @param[in]       handle	: attribute handle
  * @param[in]       attr 	: Alicloud sds attribute description
@@ -151,28 +175,30 @@ void alisds_attr_indicate_by_handle(int handle);
 
 /**
  * 
- * @brief         	Send provision data to SDS cloud, this usually called after AWS Wi-Fi config to prove APP is bound to a correct device.
- *                	provision data is defined on SDS cloud console.
+ * @brief 	Send provision data to SDS cloud, this usually called after AWS 
+ *          Wi-Fi config to prove APP is bound to a correct device. provision 
+ *          data is defined on SDS cloud console.
  * 
- * @return      	none
+ * @return	none
  *
  */
 void alisds_provision(void);
 
 /**
  *
- * @brief         	Try to procedure an unbound operation on cloud if connected and restore module settings to default.
+ * @brief	Try to procedure an unbound operation on cloud if connected and 
+ *          restore module settings to default.
  * 
- * @return      	none
+ * @return	none
  *
  */
 void alisds_restore(void);
 
 /**
  *
- * @brief         	Alicloud SDS service event handler accomplished by application 
+ * @brief	Alicloud SDS service event handler accomplished by application 
  * 
- * @return      	none
+ * @return	none
  *
  */
 MX_WEAK void alisds_event_handler(alisds_event_t event);

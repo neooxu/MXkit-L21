@@ -37,33 +37,46 @@ extern "C" {
 /** \addtogroup IO_Button */
 /** @{*/
 
-//--------------------------------  pin defines --------------------------------
+/******************************************************************************
+ *                                 Enumerations
+ ******************************************************************************/
 
 enum _button_idle_state_e{
-    IOBUTTON_IDLE_STATE_LOW = 0,
-    IOBUTTON_IDLE_STATE_HIGH,
+    IOBUTTON_IDLE_STATE_LOW = 0,  /**< GPIO level is low when button is unpressed. */
+    IOBUTTON_IDLE_STATE_HIGH,     /**< GPIO level is high when button is unpressed. */
 };
+typedef uint8_t btn_idle_state_t;
 
-typedef uint8_t btn_idle_state;
+/******************************************************************************
+ *                               Type Definitions
+ ******************************************************************************/
+
+
 
 typedef void (*button_pressed_cb)(void) ;
 typedef void (*button_long_pressed_cb)(void) ;
 
 typedef struct {
-  const uint8_t port;
-  const uint8_t pin;
-  void (*io_irq)(void);
-  btn_idle_state idle;
-  uint32_t long_pressed_timeout;
-  button_pressed_cb pressed_func;
-  button_long_pressed_cb long_pressed_func;
+  /* Change if migrate to other MCU platform */
+  const uint8_t port;           /**< MCU GPIO port define by ATMEL peripheral library. */
+  const uint8_t pin;            /**< MCU GPIO pin define by ATMEL peripheral library. */
+  void (*io_irq)(void);         /**< MCU external interrupt ISR . */
+
+  /* IO button defines */
+  btn_idle_state_t idle;                      /**< GPIO idle state, #_button_idle_state_e  */
+  uint32_t long_pressed_timeout;              /**< Button long pressed timeout  */
+  button_pressed_cb pressed_func;             /**< Button pressed handler  */
+  button_long_pressed_cb long_pressed_func;   /**< Button long pressed handler  */
+
   /* Use by driver, do not initialize */
   volatile bool clicked;
   volatile bool timer_enabled;
   volatile uint32_t start_time;
 } btn_instance_t;
 
-//------------------------------ user interfaces -------------------------------
+/******************************************************************************
+ *                             Function Declarations
+ ******************************************************************************/
 
 
 /**

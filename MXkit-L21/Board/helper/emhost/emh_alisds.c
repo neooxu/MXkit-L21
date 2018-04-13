@@ -1,8 +1,39 @@
+/**
+ ******************************************************************************
+ * @file    emh_alisds.c
+ * @author  William Xu
+ * @version V1.0.0
+ * @date    9-Apr-2018
+ * @brief   Alicloud SDS service AT commands API
+ ******************************************************************************
+ *
+ * Copyright (c) 2009-2018 MXCHIP Co.,Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ ******************************************************************************
+ */
+
+
 #include <stdlib.h>
 #include <string.h>
 
 #include "emh_api.h"
 #include "ATCmdParser/ATCmdParser.h"
+
+/******************************************************************************
+ *                              Function Definitions
+ ******************************************************************************/
 
 mx_status emh_alisds_config(const emh_alisds_config_t* config)
 {
@@ -21,12 +52,12 @@ mx_status emh_alisds_config(const emh_alisds_config_t* config)
 	}
 
 	if (strcmp(arg_list[0], config->product_info.name)
-	 || strcmp(arg_list[1], config->product_info.modle)
+	 || strcmp(arg_list[1], config->product_info.module)
 	 || strcmp(arg_list[2], config->product_info.key)
 	 || strcmp(arg_list[3], config->product_info.secret) ){
 		 
 		if (!(ATCmdParser_send("AT+ALINKPRODUCT=%s,%s,%s,%s,%s", 
-							 config->product_info.name, config->product_info.modle, 
+							 config->product_info.name, config->product_info.module, 
 	                         config->product_info.key,  config->product_info.secret, format_arg )
 		  && ATCmdParser_recv("OK\r\n"))) {
 			return kGeneralErr;
@@ -77,7 +108,7 @@ mx_status emh_alisds_start_service(void)
 	return kGeneralErr;
 }
 
-emh_arg_ali_status_e emh_alisds_get_status(void)
+emh_arg_ali_status_t emh_alisds_get_status(void)
 {
 	char arg[20];
 
@@ -127,7 +158,7 @@ mx_status emh_ali_stop_provision(void)
 	return kGeneralErr;
 }
 
-mx_status emh_alisds_set_cloud_atts(emh_arg_ali_format_e format, uint8_t *data, int32_t len)
+mx_status emh_alisds_set_cloud_atts(emh_arg_ali_format_t format, uint8_t *data, int32_t len)
 {
 	if (ATCmdParser_send("AT+ALINKSEND=%d", len)
 	 && ATCmdParser_recv(">")
@@ -138,18 +169,18 @@ mx_status emh_alisds_set_cloud_atts(emh_arg_ali_format_e format, uint8_t *data, 
 	return kGeneralErr;
 }
 
-void emh_ali_event_handler(void)
+void emh_alisds_event_handler(void)
 {
 	mx_status err = kNoErr;
 	char arg1[10], arg2[10];
-	emh_arg_ali_format_e format;
-	emh_arg_ali_conn_e conn;
-	emh_ali_local_attrs_t attrs;
+	emh_arg_ali_format_t format;
+	emh_arg_ali_conn_t conn;
+	emh_alisds_msg attrs;
 
 	// parse out the packet
 	require_action(ATCmdParser_recv("%10[^,],", arg1), exit, err = kMalformedErr);
 		
-	emh_arg_ali_ev_e event = emh_arg_for_arg(EMH_ARG_ALI_EV, arg1);
+	emh_arg_ali_ev_t event = emh_arg_for_arg(EMH_ARG_ALI_EV, arg1);
 	require_action(event != EMH_ARG_ERR, exit,  err = kMalformedErr);
 
 	/* ALINK Server connection event */
@@ -157,7 +188,7 @@ void emh_ali_event_handler(void)
 		require_action(ATCmdParser_recv("%10[^\r]\r\n", arg2), exit, err = kMalformedErr);
 		conn = emh_arg_for_arg(EMH_ARG_ALI_CONN, arg2);
 		require_action(conn != EMH_ARG_ERR, exit, err = kMalformedErr);
-		emh_ev_ali_connection(conn);
+		emh_ev_alisds_connection(conn);
 	}
 	/* ALINK server <=== attribute value=== device */
 	else if (event == EMH_ARG_ALI_EV_GET) {
@@ -168,7 +199,7 @@ void emh_ali_event_handler(void)
 		attrs.format = format;
 		attrs.data = NULL;
 		attrs.len = 0;
-		emh_ev_ali_get_local_atts(&attrs);
+		emh_ev_alisds_get_local_atts(&attrs);
 	}
 	/* ALINK server === attribute value===> device */
 	else if (event == EMH_ARG_ALI_EV_SET) {
@@ -187,7 +218,7 @@ void emh_ali_event_handler(void)
 		attrs.data = data;
 		attrs.format = format;
 		attrs.len = count;
-		emh_ev_ali_set_local_atts(&attrs);
+		emh_ev_alisds_set_local_atts(&attrs);
 		free(data);
 	}
 	

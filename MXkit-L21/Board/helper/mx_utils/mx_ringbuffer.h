@@ -5,12 +5,6 @@
 extern "C" {
 #endif
 
-/**
- * \addtogroup doc_driver_hal_utils_ringbuffer
- *
- * @{
- */
-
 
 #include "mx_common.h"
 #include "mx_debug.h"
@@ -77,7 +71,6 @@ uint32_t ringbuffer_num(const struct ringbuffer *const rb);
  */
 uint32_t ringbuffer_flush(struct ringbuffer *const rb);
 
-/**@}*/
 
 #ifdef __cplusplus
 }

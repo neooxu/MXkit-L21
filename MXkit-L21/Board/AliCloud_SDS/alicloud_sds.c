@@ -61,7 +61,7 @@ typedef enum
 
 typedef struct {
 	cc_device_state_e device_state;		/**< Device state machine. */
-	emh_arg_ali_conn_e cloud_state;		/**< SDS service connection state. */
+	emh_arg_ali_conn_t cloud_state;		/**< SDS service connection state. */
 	bool delay_prov;					/**< Send prov message after cloud is connected. */
 	int num_handles;					/**< Max. SDS characteristics numbers registered on cloud */
 } cc_context_t;
@@ -237,7 +237,7 @@ exit:
 }
 
 
-void emh_ev_wlan(emh_arg_wlan_ev_e event)
+void emh_ev_wlan(emh_arg_wlan_ev_t event)
 {
 	sds_log("Wlan event: %s", emh_arg_for_type(EMH_ARG_WLAN_EV, event));
 	if (event == EMH_ARG_WLAN_EV_STA_CONNECTED) {
@@ -248,7 +248,7 @@ void emh_ev_wlan(emh_arg_wlan_ev_e event)
 	}
 }
 
-void emh_ev_ali_connection(emh_arg_ali_conn_e conn)
+void emh_ev_alisds_connection(emh_arg_ali_conn_t conn)
 {
 	sds_log("AliCloud event: %s", emh_arg_for_type(EMH_ARG_ALI_CONN, conn));
 	
@@ -274,7 +274,7 @@ void emh_ev_ali_connection(emh_arg_ali_conn_e conn)
 }
 
 
-void emh_ev_ali_set_local_atts(emh_ali_local_attrs_t *attrs)
+void emh_ev_alisds_set_local_atts(emh_alisds_msg *attrs)
 {
 	jsontok_t json_tokens[SDS_NUM_TOKENS];
 	jobj_t jobj;
