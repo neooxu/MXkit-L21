@@ -554,9 +554,6 @@
     <Compile Include="Board\helper\emhost\emh_arg.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Board\helper\emhost\emh_event.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="Board\helper\emhost\emh_module.c">
       <SubType>compile</SubType>
     </Compile>
