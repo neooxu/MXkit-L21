@@ -84,12 +84,9 @@ uint32_t    emh_module_get_tick			(void);
 /**
  * @brief	Read EMW module internal tick
  * 
- * @return	Tick value
+ * @return	status
  */
 mx_status	emh_module_restore_settings	(void);
-
-/** \addtogroup event */
-/** @{*/
 
 /**
  * @brief	Receive an unknown event, or data format error
@@ -98,7 +95,6 @@ mx_status	emh_module_restore_settings	(void);
  */
 MX_WEAK void emh_ev_unknown(void);
 
-/** @}*/
 /** @}*/
 /******************************************************************************
  *                              Wlan management
@@ -124,16 +120,13 @@ mx_status			emh_wlan_get_para			(char ssid[33], char pwd[33]);
  */
 emh_arg_wlan_sta_t 	emh_wlan_get_sta_status		(void);
 
-/** \addtogroup event */
-/** @{*/
-
 /**
  * @brief		Event: wlan connection status is changed
  * 
  * @return		none
  */
 MX_WEAK void emh_ev_wlan(emh_arg_wlan_ev_t event);
-/** @}*/
+
 /** @}*/
 /******************************************************************************
  *                              Alicoud SDS service
