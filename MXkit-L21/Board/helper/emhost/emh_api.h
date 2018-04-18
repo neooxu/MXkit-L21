@@ -128,9 +128,9 @@ emh_arg_wlan_sta_t 	emh_wlan_get_sta_status		(void);
 /** @{*/
 
 /**
- * @brief		Read wlan connection status
+ * @brief		Event: wlan connection status is changed
  * 
- * @return		Refer to #emh_arg_wlan_sta_t
+ * @return		none
  */
 MX_WEAK void emh_ev_wlan(emh_arg_wlan_ev_t event);
 /** @}*/
@@ -142,38 +142,119 @@ MX_WEAK void emh_ev_wlan(emh_arg_wlan_ev_t event);
 /** \addtogroup alicloud_sds */
 /** @{*/
 
+/**
+ *  Alicloud sds service product information registered on cloud console
+ */
 typedef struct{
 	struct{
-		const char*				name;			/**< ALINKTEST */
-		const char*				module;			/**< ALINKTEST_LUA */
-		const char*				key;			/**< LIVING */
-		const char*				secret;			/**< LIGHT */
-		emh_arg_ali_format_t	format;			/**< ALINKTEST_LIVING_LIGHT_ALINK_TEST_LUA */
+		const char*				name;	/**< Reference to product TRD document */
+		const char*				module;	/**< Reference to product TRD document */
+		const char*				key;	/**< Reference to product TRD document */
+		const char*				secret;	/**< Reference to product TRD document */
+		emh_arg_alisds_format_t	format;	/**< Reference to product TRD document */
 	} product_info;
 	struct{
-		const char*				type;
-		const char*				category;
-		const char*				manufacture;
+		const char*				type;			/**< Reference to product TRD document */
+		const char*				category;		/**< Reference to product TRD document */
+		const char*				manufacture;	/**< Reference to product TRD document */
 	} dev_info ;
 } emh_alisds_config_t;
 
+/**
+ *  Alicloud sds service message
+ */
 typedef struct {
-	int32_t len;
-	uint8_t* data;
-	emh_arg_ali_format_t format;
+	int32_t 	len;				/**< message length */
+	uint8_t* 	data;				/**< point to the buffer store the message */
+	emh_arg_alisds_format_t format;	/**< message format, json or raw data */
 } emh_alisds_msg;
 
-mx_status				emh_alisds_config			(const emh_alisds_config_t *config);
-mx_status				emh_alisds_start_service	(void);
-mx_status				emh_alisds_provision		(bool on);
-emh_arg_ali_status_t	emh_alisds_get_status		(void);
-mx_status				emh_alisds_set_cloud_atts	(emh_arg_ali_format_t format, uint8_t *data, int32_t len);
-mx_status				emh_alisds_set_key			(const char *dev_key, const char *dev_sec);
+/**
+ * @brief		Read product info data from module, write new data if not equal
+ * 
+ * @param[in] 	config: Product information
+ * 
+ * @return		status
+ */
+mx_status	emh_alisds_config(const emh_alisds_config_t *config);
 
-mx_status				emh_alisds_unbound			(void);
+/**
+ * @brief		Start cloud service on module
+ * 
+ * @return		status
+ */
+mx_status emh_alisds_start_service(void);
 
-MX_WEAK void emh_ev_alisds_connection(emh_arg_ali_conn_t conn);
+/**
+ * @brief		Start or stop AWS Wi-Fi configuration, cloud provision procedure bond module to APP
+ * @warning		After bound device to APP, the device key can no longer used in other SDS products         
+ * 
+ * @param[in] 	on: true for start and false for stop 
+ * 
+ * @return		status
+ */
+mx_status emh_alisds_provision(bool on);
+
+/**
+ * @brief		Get current alicloud service connection status, 
+ * 
+ * @return		connection status
+ */
+emh_arg_alisds_status_t emh_alisds_get_status(void);
+
+/**
+ * @brief		Send message to cloud from local
+ * 
+ * @param[in] 	format: message format, json or raw data
+ * @param[in] 	data: point to the buffer store the outgoing message
+ * @param[in] 	len: outgoing message length
+ * 
+ * @return		status
+ */
+mx_status emh_alisds_set_cloud_atts	(emh_arg_alisds_format_t format, uint8_t *data, int32_t len);
+
+/**
+ * @brief		Set device key, device key is used to connect to SDS service.
+ * @note  		The default key is stored in EMW module, use this function to write the new key.
+ * 	            A factory restore command remove the new key and use the default key
+ * 
+ * @param[in] 	dev_key: device key
+ * @param[in] 	dev_sec: device security
+ * 
+ * @return		status
+ */
+mx_status emh_alisds_set_key(const char *dev_key, const char *dev_sec);
+
+/**
+ * @brief		Un-bond device from APP, on works when connected to cloud
+ * 
+ * @return		status
+ */
+mx_status emh_alisds_unbound(void);
+
+/**
+ * @brief		Event: Alicloud SDS service connection status is changed
+ * 
+ * @return		none
+ */
+MX_WEAK void emh_ev_alisds_connection(emh_arg_alisds_conn_t conn);
+
+/**
+ * @brief		Event: Alicloud SDS service is requesting data from local device
+ * 
+ * @param[in] 	attrs: SDS service msg
+ * 
+ * @return		none
+ */
 MX_WEAK void emh_ev_alisds_get_local_atts(emh_alisds_msg *attrs);
+
+/**
+ * @brief		Event: Alicloud SDS service is writing data to local device
+ * 
+ * @param[in] 	attrs: SDS service msg
+ * 
+ * @return		none
+ */
 MX_WEAK void emh_ev_alisds_set_local_atts(emh_alisds_msg *attrs);
 
 /** @}*/

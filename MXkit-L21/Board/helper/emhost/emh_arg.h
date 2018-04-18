@@ -37,9 +37,6 @@ extern "C"
 /** \addtogroup emhost */
 /** @{*/
 
-/** \addtogroup arguments */
-/** @{*/
-
 /******************************************************************************
  *                                 Constants
  ******************************************************************************/
@@ -50,41 +47,47 @@ extern "C"
  *                                 Enumerations
  ******************************************************************************/
 
-enum{
-	EMH_ARG_ALI_CONN_DISCONNECTED,
-	EMH_ARG_ALI_CONN_CONNECTED,
-	EMH_ARG_ALI_CONN_MAX,
-};
-typedef uint8_t emh_arg_ali_conn_t;
-extern const char* EMH_ARG_ALI_CONN[];
+/** \addtogroup alicloud_sds */
+/** @{*/
 
 enum{
-	EMH_ARG_ALI_STATUS_UNINITIALIZED,
-	EMH_ARG_ALI_STATUS_INITIALIZED,
-	EMH_ARG_ALI_STATUS_CONNECTED,
-	EMH_ARG_ALI_STATUS_DISCONNECTED,
-	EMH_ARG_ALI_STATUS_MAX,
+	EMH_ARG_ALISDS_CONN_DISCONNECTED,
+	EMH_ARG_ALISDS_CONN_CONNECTED,
+	EMH_ARG_ALISDS_CONN_MAX,
 };
-typedef uint8_t emh_arg_ali_status_t;
-extern const char* EMH_ARG_ALI_STATUS[];
+typedef uint8_t emh_arg_alisds_conn_t;
+extern const char* EMH_ARG_ALISDS_CONN[];
 
 enum{
-	EMH_ARG_ALI_FORMAT_JSON,
-	EMH_ARG_ALI_FORMAT_RAW,
-	EMH_ARG_ALI_FORMAT_MAX,
+	EMH_ARG_ALISDS_STATUS_UNINITIALIZED,
+	EMH_ARG_ALISDS_STATUS_INITIALIZED,
+	EMH_ARG_ALISDS_STATUS_CONNECTED,
+	EMH_ARG_ALISDS_STATUS_DISCONNECTED,
+	EMH_ARG_ALISDS_STATUS_MAX,
 };
-typedef uint8_t emh_arg_ali_format_t;
-extern const char* EMH_ARG_ALI_FORMAT[];
+typedef uint8_t emh_arg_alisds_status_t;
+extern const char* EMH_ARG_ALISDS_STATUS[];
 
 enum{
-	EMH_ARG_ALI_EV_ALINK,
-	EMH_ARG_ALI_EV_SET,
-	EMH_ARG_ALI_EV_GET,
-	EMH_ARG_ALI_EV_MAX,
+	EMH_ARG_ALISDS_FORMAT_JSON,
+	EMH_ARG_ALISDS_FORMAT_RAW,
+	EMH_ARG_ALISDS_FORMAT_MAX,
 };
-typedef uint8_t emh_arg_ali_ev_t;
-extern const char* EMH_ARG_ALI_EV[];
+typedef uint8_t emh_arg_alisds_format_t;
+extern const char* EMH_ARG_ALISDS_FORMAT[];
 
+enum{
+	EMH_ARG_ALISDS_EV_ALINK,
+	EMH_ARG_ALISDS_EV_SET,
+	EMH_ARG_ALISDS_EV_GET,
+	EMH_ARG_ALISDS_EV_MAX,
+};
+typedef uint8_t emh_arg_alisds_ev_t;
+extern const char* EMH_ARG_ALISDS_EV[];
+
+/** @}*/
+/** \addtogroup wlan */
+/** @{*/
 enum{
 	EMH_ARG_WLAN_EV_UAP_ESTABLISHED,
 	EMH_ARG_WLAN_EV_UAP_DESTROYED,
@@ -103,6 +106,7 @@ enum{
 };
 typedef uint8_t emh_arg_wlan_sta_t;      /**< wlan connection status under station mode */
 extern const char* EMH_ARG_WLAN_STA[];
+/** @}*/
 
 /******************************************************************************
  *                             Function Declarations

@@ -42,9 +42,6 @@
 
 #define ALISDS_INVALID_HANDLE  (-1)			
 
-#define ALISDS_ATTR_VAL_MAX_LEN  (1024)	/**< Max possible attr value length, reduce to save memory */
-#define ALISDS_ATTR_NAME_MAX_LEN (64)	/**< Max possible attr name length, reduce to save memory */
-
 /******************************************************************************
  *                                 Enumerations
  ******************************************************************************/

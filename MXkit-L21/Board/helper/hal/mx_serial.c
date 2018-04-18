@@ -1,3 +1,29 @@
+/**
+ ******************************************************************************
+ * @file    mx_hal_serial.c
+ * @author  William Xu
+ * @version V1.0.0
+ * @date    9-Apr-2018
+ * @brief   UART driver used for AT parser
+ ******************************************************************************
+ *
+ * Copyright (c) 2009-2018 MXCHIP Co.,Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ ******************************************************************************
+ */
+
 #include <hal_usart_async.h>
 #include <utils.h>
 
@@ -5,18 +31,26 @@
 
 #define MCU_DRVIER_RECV     0
 
+/******************************************************************************
+ *                              Variable Definitions
+ ******************************************************************************/
+
 extern struct usart_async_descriptor USART_AT;
 static struct io_descriptor *io_at;
 static volatile bool tx_complete = true;
 static int _timeout = 100;
 
 #if MCU_DRVIER_RECV
-#define ATCOMMAND_RX_BUF_SIZE 1024
 
-uint8_t at_buffer[ATCOMMAND_RX_BUF_SIZE];
+
+uint8_t at_buffer[MX_SERIAL_RX_BUF_SIZE];
 struct ringbuffer at_rx;
 void SERIAL_RX_ISR(void);
 #endif
+
+/******************************************************************************
+ *                              Function Definitions
+ ******************************************************************************/
 
 static void rx_cb_USART_AT(const struct usart_async_descriptor *const io_descr)
 {
@@ -33,7 +67,7 @@ void mx_hal_serial_init(int timeout)
 	_timeout = timeout;
 	
 #if MCU_DRVIER_RECV
-	ringbuffer_init(&at_rx, at_buffer, ATCOMMAND_RX_BUF_SIZE);
+	ringbuffer_init(&at_rx, at_buffer, MX_SERIAL_RX_BUF_SIZE);
 #endif
 	
 	usart_async_register_callback(&USART_AT, USART_ASYNC_RXC_CB, rx_cb_USART_AT);

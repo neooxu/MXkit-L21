@@ -13,7 +13,7 @@ const emh_alisds_config_t alisds_config =
 		.module			= "MICROCHIP_LIVING_AIRBOX_MICROCHIP_002",
 		.key			= "Dkqt9OjYC0u0DIWGajKP",
 		.secret			= "ciubDzkEOKVi0WS2VZzqAGGIgdmW1dsSatitz6Ie",
-		.format			= EMH_ARG_ALI_FORMAT_JSON,
+		.format			= EMH_ARG_ALISDS_FORMAT_JSON,
 	},
 	.dev_info = {
 		.type			= "AIRBOX",

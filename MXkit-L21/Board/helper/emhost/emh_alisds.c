@@ -38,7 +38,7 @@
 mx_status emh_alisds_config(const emh_alisds_config_t* config)
 {
 	char args[200], *arg_list[5];
-	const char* format_arg = emh_arg_for_type(EMH_ARG_ALI_FORMAT, config->product_info.format);
+	const char* format_arg = emh_arg_for_type(EMH_ARG_ALISDS_FORMAT, config->product_info.format);
 	
 	/* Check product info*/
 	if (!(ATCmdParser_send("AT+ALINKPRODUCT?")
@@ -108,7 +108,7 @@ mx_status emh_alisds_start_service(void)
 	return kGeneralErr;
 }
 
-emh_arg_ali_status_t emh_alisds_get_status(void)
+emh_arg_alisds_status_t emh_alisds_get_status(void)
 {
 	char arg[20];
 
@@ -118,7 +118,7 @@ emh_arg_ali_status_t emh_alisds_get_status(void)
 		return EMH_ARG_ERR;
 	}
 	
-	return emh_arg_for_arg( EMH_ARG_ALI_STATUS, arg);
+	return emh_arg_for_arg( EMH_ARG_ALISDS_STATUS, arg);
 }
 
 mx_status emh_alisds_provision(bool on)
@@ -158,7 +158,7 @@ mx_status emh_ali_stop_provision(void)
 	return kGeneralErr;
 }
 
-mx_status emh_alisds_set_cloud_atts(emh_arg_ali_format_t format, uint8_t *data, int32_t len)
+mx_status emh_alisds_set_cloud_atts(emh_arg_alisds_format_t format, uint8_t *data, int32_t len)
 {
 	if (ATCmdParser_send("AT+ALINKSEND=%d", len)
 	 && ATCmdParser_recv(">")
@@ -173,27 +173,27 @@ void emh_alisds_event_handler(void)
 {
 	mx_status err = kNoErr;
 	char arg1[10], arg2[10];
-	emh_arg_ali_format_t format;
-	emh_arg_ali_conn_t conn;
+	emh_arg_alisds_format_t format;
+	emh_arg_alisds_conn_t conn;
 	emh_alisds_msg attrs;
 
 	// parse out the packet
 	require_action(ATCmdParser_recv("%10[^,],", arg1), exit, err = kMalformedErr);
 		
-	emh_arg_ali_ev_t event = emh_arg_for_arg(EMH_ARG_ALI_EV, arg1);
+	emh_arg_alisds_ev_t event = emh_arg_for_arg(EMH_ARG_ALISDS_EV, arg1);
 	require_action(event != EMH_ARG_ERR, exit,  err = kMalformedErr);
 
 	/* ALINK Server connection event */
-	if (event == EMH_ARG_ALI_EV_ALINK) {
+	if (event == EMH_ARG_ALISDS_EV_ALINK) {
 		require_action(ATCmdParser_recv("%10[^\r]\r\n", arg2), exit, err = kMalformedErr);
-		conn = emh_arg_for_arg(EMH_ARG_ALI_CONN, arg2);
+		conn = emh_arg_for_arg(EMH_ARG_ALISDS_CONN, arg2);
 		require_action(conn != EMH_ARG_ERR, exit, err = kMalformedErr);
 		emh_ev_alisds_connection(conn);
 	}
 	/* ALINK server <=== attribute value=== device */
-	else if (event == EMH_ARG_ALI_EV_GET) {
+	else if (event == EMH_ARG_ALISDS_EV_GET) {
 		require_action(ATCmdParser_recv("%10[^\r]\r\n", arg2), exit, err = kMalformedErr);
-		format =  emh_arg_for_arg(EMH_ARG_ALI_FORMAT, arg2);
+		format =  emh_arg_for_arg(EMH_ARG_ALISDS_FORMAT, arg2);
 		require_action(format != EMH_ARG_ERR, exit, err = kMalformedErr);
 		
 		attrs.format = format;
@@ -202,9 +202,9 @@ void emh_alisds_event_handler(void)
 		emh_ev_alisds_get_local_atts(&attrs);
 	}
 	/* ALINK server === attribute value===> device */
-	else if (event == EMH_ARG_ALI_EV_SET) {
+	else if (event == EMH_ARG_ALISDS_EV_SET) {
 		require_action(ATCmdParser_recv("%10[^,],", arg2), exit, err = kMalformedErr);
-		format = emh_arg_for_arg(EMH_ARG_ALI_FORMAT, arg2);
+		format = emh_arg_for_arg(EMH_ARG_ALISDS_FORMAT, arg2);
 		require_action(format != EMH_ARG_ERR, exit, err = kMalformedErr);
 		
 		/* Read package data */

@@ -61,7 +61,7 @@ typedef enum
 
 typedef struct {
 	cc_device_state_e device_state;		/**< Device state machine. */
-	emh_arg_ali_conn_t cloud_state;		/**< SDS service connection state. */
+	emh_arg_alisds_conn_t cloud_state;		/**< SDS service connection state. */
 	bool delay_prov;					/**< Send prov message after cloud is connected. */
 	int num_handles;					/**< Max. SDS characteristics numbers registered on cloud */
 } cc_context_t;
@@ -112,7 +112,7 @@ mx_status alisds_init(const emh_alisds_config_t *config, int num_handles)
 	memset(alisds_attr_db, 0x0, num_handles*sizeof(alisds_attr_t));
 	
 	context.device_state = eState_M1_initialize;
-	context.cloud_state = EMH_ARG_ALI_CONN_DISCONNECTED;
+	context.cloud_state = EMH_ARG_ALISDS_CONN_DISCONNECTED;
 	context.delay_prov = false;
 	context.num_handles = num_handles;
 	
@@ -164,7 +164,7 @@ static mx_status _handle_state_initialize(void)
 
 	if (strlen(ssid)) {
 		sds_log("SSID: %s, PWD: %s", ssid, pwd);
-		if (EMH_ARG_ALI_STATUS_CONNECTED == emh_alisds_get_status()) {
+		if (EMH_ARG_ALISDS_STATUS_CONNECTED == emh_alisds_get_status()) {
 			sds_log("Alicloud connected.");
 			mx_hal_delay_ms(200);
 			context.device_state = eState_M3_normal;
@@ -248,13 +248,13 @@ void emh_ev_wlan(emh_arg_wlan_ev_t event)
 	}
 }
 
-void emh_ev_alisds_connection(emh_arg_ali_conn_t conn)
+void emh_ev_alisds_connection(emh_arg_alisds_conn_t conn)
 {
-	sds_log("AliCloud event: %s", emh_arg_for_type(EMH_ARG_ALI_CONN, conn));
+	sds_log("AliCloud event: %s", emh_arg_for_type(EMH_ARG_ALISDS_CONN, conn));
 	
 	context.cloud_state = conn;
 	
-	if (conn == EMH_ARG_ALI_CONN_CONNECTED) {
+	if (conn == EMH_ARG_ALISDS_CONN_CONNECTED) {
 		if (context.delay_prov == true) {
 			alisds_provision();
 			context.delay_prov = false;
@@ -267,7 +267,7 @@ void emh_ev_alisds_connection(emh_arg_ali_conn_t conn)
 		context.device_state = eState_M3_normal;
 	}
 
-	if (conn == EMH_ARG_ALI_CONN_DISCONNECTED) {
+	if (conn == EMH_ARG_ALISDS_CONN_DISCONNECTED) {
 		alisds_event_handler(ALISDS_EVENT_CLOUD_DISCONNECTED);
 		context.device_state = eState_M4_disconnected;
 	}
@@ -285,7 +285,7 @@ void emh_ev_alisds_set_local_atts(emh_alisds_msg *attrs)
 	int handle;
 	
 	sds_log("Set local attrs event");
-	require(attrs->format==EMH_ARG_ALI_FORMAT_JSON, exit);
+	require(attrs->format==EMH_ARG_ALISDS_FORMAT_JSON, exit);
 	
 	memset(attr_handles, 0, 50);
 	mx_status err = json_init(&jobj, json_tokens, SDS_NUM_TOKENS, (char *)attrs->data, attrs->len);
@@ -411,7 +411,7 @@ void alisds_indicate_local_atts(int attr_handles[], int num)
 	require_noerr(err, exit);
 	
 	sds_log("Send to cloud %d bytes > %s", strlen(buff), buff);
-	err = emh_alisds_set_cloud_atts(EMH_ARG_ALI_FORMAT_JSON, (uint8_t *)buff, strlen(buff));
+	err = emh_alisds_set_cloud_atts(EMH_ARG_ALISDS_FORMAT_JSON, (uint8_t *)buff, strlen(buff));
 	require_noerr(err, exit);
 	
 	for (i = 0; i < num; i++)
@@ -429,13 +429,13 @@ void alisds_provision(void)
 	mx_status err = kNoErr;
 	char provision_ack[50];
 	
-	if (context.cloud_state == EMH_ARG_ALI_CONN_CONNECTED) {
+	if (context.cloud_state == EMH_ARG_ALISDS_CONN_CONNECTED) {
 		snprintf(provision_ack, 50, "{\"prov\":{\"value\":\"%d\"}}", 0);
-		err = emh_alisds_set_cloud_atts(EMH_ARG_ALI_FORMAT_JSON, (uint8_t *)provision_ack, strlen(provision_ack));
+		err = emh_alisds_set_cloud_atts(EMH_ARG_ALISDS_FORMAT_JSON, (uint8_t *)provision_ack, strlen(provision_ack));
 		require_noerr(err, exit);
 		
 		snprintf(provision_ack, 50, "{\"prov\":{\"value\":\"%d\"}}", 1);
-		err = emh_alisds_set_cloud_atts(EMH_ARG_ALI_FORMAT_JSON, (uint8_t *)provision_ack, strlen(provision_ack));
+		err = emh_alisds_set_cloud_atts(EMH_ARG_ALISDS_FORMAT_JSON, (uint8_t *)provision_ack, strlen(provision_ack));
 		require_noerr(err, exit);
 		
 		sds_log("Send provision acknowledgment to alisds");
