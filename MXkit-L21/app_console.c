@@ -67,13 +67,13 @@ void OLED_ShowStatusString(const char *status_str)
 }
 
 
-mx_status handle_read_console (ali_att_val_t *value)
+mx_status handle_read_console (alisds_att_val_t *value)
 {
 	(*value).stringValue = console_buff;
 	return kNoErr;
 }
 
-mx_status handle_write_console(ali_att_val_t value)
+mx_status handle_write_console(alisds_att_val_t value)
 {
 	app_log("recv %s", value.stringValue);
 	strncpy(console_buff, value.stringValue, ALISDS_ATTR_VAL_MAX_LEN);

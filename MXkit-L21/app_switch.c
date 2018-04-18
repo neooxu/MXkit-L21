@@ -47,13 +47,13 @@ void switch_task(void)
 
 
 /* Switch attribute handlers */
-mx_status handle_read_cur_switch_1		(ali_att_val_t *value)
+mx_status handle_read_cur_switch_1		(alisds_att_val_t *value)
 {
 	(*value).boolValue = (switch_1==true)? false:true;
 	return kNoErr;
 }
 
-mx_status handle_read_cur_switch_2		(ali_att_val_t *value)
+mx_status handle_read_cur_switch_2		(alisds_att_val_t *value)
 {
 	(*value).boolValue = (switch_2==true)? false:true;
 	return kNoErr;

@@ -62,14 +62,14 @@ void SHT20_task(void)
 }
 
 
-mx_status handle_read_cur_humidity(ali_att_val_t *value)
+mx_status handle_read_cur_humidity(alisds_att_val_t *value)
 {
 	(*value).floatValue = humidity;
 	return kNoErr;
 }
 
 
-mx_status handle_read_cur_temperature(ali_att_val_t *value)
+mx_status handle_read_cur_temperature(alisds_att_val_t *value)
 {
 	(*value).floatValue = temperature;
 	return kNoErr;

@@ -279,7 +279,7 @@ void emh_ev_alisds_set_local_atts(emh_alisds_msg *attrs)
 	jsontok_t json_tokens[SDS_NUM_TOKENS];
 	jobj_t jobj;
 	
-	ali_att_val_t value;
+	alisds_att_val_t value;
 	int attr_handles[50];
 	int num;
 	int handle;
@@ -346,7 +346,7 @@ void alisds_indicate_local_atts(int attr_handles[], int num)
 	char buff[512] = {0};
 	char val_str[20];
 	mx_status err = kNoErr;
-	ali_att_val_t value;
+	alisds_att_val_t value;
 	int handle;
 	int i;
 	

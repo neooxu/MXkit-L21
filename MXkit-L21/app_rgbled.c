@@ -44,7 +44,7 @@ mx_status rgbled_task_init(void)
 
 
 /* RGB led attribute handlers */
-mx_status handle_write_cur_saturation	(ali_att_val_t value)
+mx_status handle_write_cur_saturation	(alisds_att_val_t value)
 {
 	saturation = (float)value.intValue;
 	if (light_on == true) {
@@ -52,7 +52,7 @@ mx_status handle_write_cur_saturation	(ali_att_val_t value)
 	}
 	return kNoErr;
 }
-mx_status handle_write_cur_bright		(ali_att_val_t value)
+mx_status handle_write_cur_bright		(alisds_att_val_t value)
 {
 	bright = (float)value.intValue;
 	if (light_on == true) {
@@ -61,7 +61,7 @@ mx_status handle_write_cur_bright		(ali_att_val_t value)
 	return kNoErr;
 }
 
-mx_status handle_write_cur_hue			(ali_att_val_t value)
+mx_status handle_write_cur_hue			(alisds_att_val_t value)
 {
 	hue = (float)value.intValue;
 	if (light_on == true) {
@@ -71,7 +71,7 @@ mx_status handle_write_cur_hue			(ali_att_val_t value)
 	return kNoErr;
 }
 
-mx_status handle_write_cur_light_switch(ali_att_val_t value)
+mx_status handle_write_cur_light_switch(alisds_att_val_t value)
 {
 	light_on = value.boolValue;
 	if (light_on == true) {
@@ -84,25 +84,25 @@ mx_status handle_write_cur_light_switch(ali_att_val_t value)
 }
 
 
-mx_status handle_read_cur_saturation(ali_att_val_t *value)
+mx_status handle_read_cur_saturation(alisds_att_val_t *value)
 {
 	(*value).intValue = (int)saturation;
 	return kNoErr;
 }
 
-mx_status handle_read_cur_bright(ali_att_val_t *value)
+mx_status handle_read_cur_bright(alisds_att_val_t *value)
 {
 	(*value).intValue = (int)bright;
 	return kNoErr;
 }
 
-mx_status handle_read_cur_hue(ali_att_val_t *value)
+mx_status handle_read_cur_hue(alisds_att_val_t *value)
 {
 	(*value).intValue = (int)hue;
 	return kNoErr;
 }
 
-mx_status handle_read_cur_light_switch(ali_att_val_t *value)
+mx_status handle_read_cur_light_switch(alisds_att_val_t *value)
 {
 	(*value).boolValue = light_on;
 	return kNoErr;

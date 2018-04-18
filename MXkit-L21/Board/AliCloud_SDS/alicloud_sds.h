@@ -80,7 +80,7 @@ typedef union {
 	double		floatValue;
 	char*		stringValue;
 	char*		dateValue;
-} ali_att_val_t;
+} alisds_att_val_t;
 
 /******************************************************************************
  *                             Function Declarations
@@ -93,7 +93,7 @@ typedef union {
  *
  * @return status
  */
-typedef mx_status (*alisds_read_attr)(ali_att_val_t *value);
+typedef mx_status (*alisds_read_attr)(alisds_att_val_t *value);
 
 /**
  * Cloud write attribute handler
@@ -102,7 +102,7 @@ typedef mx_status (*alisds_read_attr)(ali_att_val_t *value);
  *
  * @return status
  */
-typedef mx_status (*alisds_write_attr)(ali_att_val_t value);
+typedef mx_status (*alisds_write_attr)(alisds_att_val_t value);
 
 /** Alicloud sds attribute description */
 typedef struct {
