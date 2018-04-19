@@ -29,7 +29,7 @@
 Tips:您也可以选择 在线安装 方式，但一定记得不要让电脑断网哦。
 
 
-![下载 as](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/download_as.png)
+![下载 as](https://github.com/neooxu/MXkit-L21/blob/master/image/download_as.png)
 
 
 
@@ -56,18 +56,18 @@ Tips:您也可以选择 在线安装 方式，但一定记得不要让电脑断�
 
 菜单栏  “File”--->"Open"--->"Project/Solutiion", 选择 SDK 中的 “MXkit-L21.atsln” 文件，稍等片刻，即可成功导入工程。
 
-![导入工程](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/import_project.png) 
+![导入工程](https://github.com/neooxu/MXkit-L21/blob/master/image/import_project.png) 
 
 
 
 ## 编译工程
 点击工具栏中编译图标，开始工程编译过程，全程大约耗时几十秒，请耐心等待。
 
-![开始编译](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/compiler.png) 
+![开始编译](https://github.com/neooxu/MXkit-L21/blob/master/image/compiler.png) 
 
 查看编译结果，如图：表示编译成功，可以下载。
 
-![编译完成](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/compiler_ok.png) 
+![编译完成](https://github.com/neooxu/MXkit-L21/blob/master/image/compiler_ok.png) 
 
 
 
@@ -77,30 +77,30 @@ Tips:您也可以选择 在线安装 方式，但一定记得不要让电脑断�
 
 编译完成后，请将 Jlink 仿真器与开发板连接，确认红色电源灯常亮，保证供电正常。 
 
-![连接仿真器](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/device_tools.png) 
+![连接仿真器](https://github.com/neooxu/MXkit-L21/blob/master/image/device_tools.png) 
 
 
 ### 确认连接成功
 
 请选择  "Tools" ---> "Device Programing", 
 
-![进入jlink](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/into_jlink.png) 
+![进入jlink](https://github.com/neooxu/MXkit-L21/blob/master/image/into_jlink.png) 
 
 
 打开后，请依次确认已自动识别到 J-Link 工具，同时出现设备类型：ATSAML21J18B， 接口类型：SWD。 以上显示正常，请点击 “Apply”， 然后点击 “Read”,看 Device Signature 是否有值，Target Voltage 中出现电压值。 如未正常显示，请重新插拔 Jlink 尝试， 还失败，请重新启动 Atmel Studio IDE 开发环境重试。
 
-![确认电压](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/jlink_assure.png) 
+![确认电压](https://github.com/neooxu/MXkit-L21/blob/master/image/jlink_assure.png) 
 
 
 ### 开始下载
 
 此时可点击工具栏下载图标，开始下载程序到开发板。
 
-![开始下载](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/download.png) 
+![开始下载](https://github.com/neooxu/MXkit-L21/blob/master/image/download.png) 
 
 下载过程大约耗时 几秒钟，如下图：
 
-![下载过程](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/download_process.png) 
+![下载过程](https://github.com/neooxu/MXkit-L21/blob/master/image/download_process.png) 
 
 
 
@@ -108,13 +108,13 @@ Tips:您也可以选择 在线安装 方式，但一定记得不要让电脑断�
 
 下载完成后，IDE 会自动跳转至 “在线调试” 状态，如下图所示：
 
-![调试过程](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/debug_status.png) 
+![调试过程](https://github.com/neooxu/MXkit-L21/blob/master/image/debug_status.png) 
 
 此时，开发者可以进行 单步调试 等操作。
 
 若要退出调试状态，请点击工具栏 红色正方形 图标，如下图。
 
-![退出调试](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/quit_debug.png) 
+![退出调试](https://github.com/neooxu/MXkit-L21/blob/master/image/quit_debug.png) 
 
 
 
@@ -122,7 +122,7 @@ Tips:您也可以选择 在线安装 方式，但一定记得不要让电脑断�
 
 本示例工程提供一个典型的 IoT 应用示例。 系统结构组成如下图：
 
-![IOT典型应用系统组成](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/demo_frame.png)
+![IOT典型应用系统组成](https://github.com/neooxu/MXkit-L21/blob/master/image/demo_frame.png)
 
 Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并与之进行 AT 指令通信，实现与阿里云 SDS 的通信，同时手机 APP 端可监控开发板的外部设备。
 
@@ -135,11 +135,11 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 
 1.下载安装APP: 点击 [示例 APP 下载页面](https://www.pgyer.com/TIAnd)，或扫描下方二维码，请根据手机系统类型选择下载。
 
-![app下载](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/app_download_address.png)  
+![app下载](https://github.com/neooxu/MXkit-L21/blob/master/image/app_download_address.png)  
 
 2.使用手机号码，进行 APP 用户账号注册，验证，登录。
 
-![app注册登录](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/app_userid.png)
+![app注册登录](https://github.com/neooxu/MXkit-L21/blob/master/image/app_userid.png)
 
 3.请确保手机已经成功连接至现场路由器。
 
@@ -150,7 +150,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 
 1. 请使用 microUSB 连接线为开发板供电，并确认红色电源灯常亮，保证供电正常。
 
-![设备供电](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/device_power.png) 
+![设备供电](https://github.com/neooxu/MXkit-L21/blob/master/image/device_power.png) 
 
 
 ### 启动配网
@@ -164,9 +164,9 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 4. 以上步骤完成后，APP 会自动跳转设备列表页面，显示在线设备；
 5. 点击设备图标，进入设备控制页面。
 
-![恢复出厂](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/reset_device.png)——> ![启动配网](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/net_config.png)
+![恢复出厂](https://github.com/neooxu/MXkit-L21/blob/master/image/reset_device.png)——> ![启动配网](https://github.com/neooxu/MXkit-L21/blob/master/image/net_config.png)
 
-![身份验证](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/id_ensure.png)  ——> ![设备列表](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/device_list.png)
+![身份验证](https://github.com/neooxu/MXkit-L21/blob/master/image/id_ensure.png)  ——> ![设备列表](https://github.com/neooxu/MXkit-L21/blob/master/image/device_list.png)
 
 
 
@@ -183,7 +183,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
    2. APP 发送数据会同步显示在接收区，带来 echo 回声体验效果。
 
 
-![设备监控](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/image/device_control.png) ——>  ![在线调试](https://github.com/neooxu/MXkit-L21/blob/master/MXkit-l21/MXkit-L21/image/app_debug.png)
+![设备监控](https://github.com/neooxu/MXkit-L21/blob/master/image/device_control.png) ——>  ![在线调试](https://github.com/neooxu/MXkit-L21/blob/master/image/app_debug.png)
 
 
 ## 结束语
