@@ -12,7 +12,7 @@
    * [2.5 编译工程](#25-编译工程)
    * [2.6 下载与调试](#26-下载与调试)
 * [3. 使用AliOS Studio开发](#3-使用alios-studio开发)
-   * [3.1 Windlow环境配置](#31-Windows环境配置)
+   * [3.1 Windlow环境配置](#31-windows环境配置)
    * [3.2 获取 AliOS Things SDK](#32-获取alios-things-sdk)
    * [3.3 SDK编译](#33-sdk编译)
    * [3.4 固件下载](#34-固件下载) 
