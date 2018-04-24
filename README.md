@@ -31,7 +31,7 @@
 
 ## 2.使用Atmel-Studio开发
 
-### 2.1 下载IDE
+### 2.1下载IDE
 点击 [ Atmel Studio 下载](http://www.microchip.com/avr-support/atmel-studio-7)，进入开发工具下载列表页面。在列表中，选择适用于您 PC 系统类型的安装程序版本。
 
 Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网。
@@ -41,7 +41,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 
 
-### 2.2 安装IDE
+### 2.2安装IDE
 下载完成后，解压缩，双击 “.exe” 安装文件，即可启动安装，一路默认，next到底即可。 
 
 到安装目录中，双击 Atmel Studio.exe 文件，打开开发环境。 您还需更新 SAML21_DFP 组件至：“Atmel SAML21 Series Device Support (1.2.120) ” 版本，下载地址： 
@@ -60,7 +60,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 
 
-### 2.4 导入工程
+### 2.4导入工程
 
 菜单栏  “File”--->"Open"--->"Project/Solutiion", 选择 SDK 中的 “MXkit-L21.atsln” 文件，稍等片刻，即可成功导入工程。
 
@@ -79,7 +79,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 
 
-### 2.6 下载与调试
+### 2.6下载与调试
 
 #### 2.6.1 连接仿真器与开发板
 
@@ -137,7 +137,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 使用具体步骤如下：
 
 
-### 4.1 准备工作
+### 4.1准备工作
 
 **—— 手机 APP 端**
 
@@ -161,7 +161,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 ![设备供电](https://github.com/neooxu/MXkit-L21/blob/master/image/device_power.png) 
 
 
-### 4.2 启动配网
+### 4.2启动配网
 打开手机 APP, 点击右上角 “+” 号，选择设备 “SAML21 IOT SK”，根据提示进行操作。
 
 1. 长按开发板上盖板的 USER 按键，恢复设备出厂设置，此时开发板 OLED 屏最后一行将打印显示："Restore default",继而跳变至 “Wi-Fi config....” 等待手机配网中；
