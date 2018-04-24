@@ -3,31 +3,31 @@
 -----------------------------------------
 目录
 
-* [1. 简介](#1简介)
-* [2. 使用Atmel Studio开发](#2使用atmel-studio开发) 
+* [1. 简介](#1-简介)
+* [2. 使用Atmel Studio开发](#2-使用atmel-studio开发) 
    * [2.1 下载 IDE](#21-下载ide)
    * [2.2 安装 IDE](#22-安装ide)
    * [2.3 获取 SDK](#23-获取sdk)
    * [2.4 导入工程](#24-导入工程)
    * [2.5 编译工程](#25-编译工程)
    * [2.6 下载与调试](#26-下载与调试)
-* [3. 使用AliOS开发](#3使用alios开发)
+* [3. 使用AliOS Studio开发](#3-使用alios-studio开发)
    * [3.1 Windlow环境配置](#31-Windows环境配置)
-   * [3.2 获取 AliOS Things SDK](#32-获取-alios-things-sdk)
+   * [3.2 获取 AliOS Things SDK](#32-获取alios-things-sdk)
    * [3.3 SDK编译](#33-sdk编译)
    * [3.4 固件下载](#34-固件下载) 
-* [4. IoT示例使用流程](#4iot-示例使用流程)
+* [4. IoT示例使用流程](#4-iot-示例使用流程)
    * [4.1 准备工作](#41-准备工作)
    * [4.2 启动配网](#42-启动配网)
    * [4.3 控制设备](#43-控制设备)
 
 
-## 1.简介
+## 1. 简介
 本 sdk 提供一个基于 Microchip 开发板，通过与 Wi-Fi 模块进行 AT 指令串口通信，实现与阿里云 SDS 直连的 IoT 物联网典型开发应用示例源代码。
 
 下面分别讲解如何使用 Atmel Studio IDE 或者 AliOS Studio IDE，进行开发板相应的 SDK 编译与下载。 
 
-## 2.使用Atmel Studio开发
+## 2. 使用Atmel Studio开发
 
 ### 2.1 下载IDE
 点击 [ Atmel Studio 下载](http://www.microchip.com/avr-support/atmel-studio-7)，进入开发工具下载列表页面。在列表中，选择适用于您 PC 系统类型的安装程序版本。
@@ -122,7 +122,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 ![退出调试](https://github.com/neooxu/MXkit-L21/blob/master/image/quit_debug.png) 
 
-## 3.使用AliOS-Studio开发
+## 3. 使用AliOS-Studio开发
 
 ### 3.1 Windows环境配置 
 
@@ -175,7 +175,7 @@ PC端通过快捷键 “win+R”, 输入 “cmd”， 打开 “系统命令行�
 至此，固件下载完毕，可继续步骤 4， 开始学习示例使用。
 
 
-## 4.IoT示例使用流程
+## 4. IoT示例使用流程
 
 本示例工程提供一个典型的 IoT 应用示例。 系统结构组成如下图：
 
