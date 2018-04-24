@@ -4,24 +4,22 @@
 目录
 
 * [1. 简介](#1简介)
-* [2. 使用Atmel-Studio开发](#2使用atmel-studio开发) 
-   * [2.1 下载 IDE](#21下载ide)
-   * [2.2 安装 IDE](#22安装ide)
-   * [2.3 获取 SDK](#23获取sdk)
-   * [2.4 导入工程](#24导入工程)
-   * [2.5 编译工程](#25编译工程)
-   * [2.6 下载与调试](#26下载与调试)
+* [2. 使用Atmel Studio开发](#2使用atmel-studio开发) 
+   * [2.1 下载 IDE](#21-下载ide)
+   * [2.2 安装 IDE](#22-安装ide)
+   * [2.3 获取 SDK](#23-获取sdk)
+   * [2.4 导入工程](#24-导入工程)
+   * [2.5 编译工程](#25-编译工程)
+   * [2.6 下载与调试](#26-下载与调试)
 * [3. 使用AliOS开发](#3使用alios开发)
-   * [3.1 下载 IDE](#31下载ide)
-   * [3.2 安装 IDE](#32安装ide)
-   * [3.3 获取 SDK](#33获取sdk)
-   * [3.4 导入工程](#34导入工程)
-   * [3.5 编译工程](#35编译工程)
-   * [3.6 下载与调试](#36下载与调试)  
-* [4. IoT示例使用流程](#4iot示例使用流程)
-   * [4.1 准备工作](#41准备工作)
-   * [4.2 启动配网](#42启动配网)
-   * [4.3 控制设备](#43控制设备)
+   * [3.1 Windlow环境配置](#31-Windows环境配置)
+   * [3.2 获取 AliOS Things SDK](#32-获取-alios-things-sdk)
+   * [3.3 SDK编译](#33-sdk编译)
+   * [3.4 固件下载](#34-固件下载) 
+* [4. IoT示例使用流程](#4iot-示例使用流程)
+   * [4.1 准备工作](#41-准备工作)
+   * [4.2 启动配网](#42-启动配网)
+   * [4.3 控制设备](#43-控制设备)
 
 
 ## 1.简介
@@ -29,9 +27,9 @@
 
 下面分别讲解如何使用 Atmel Studio IDE 或者 AliOS Studio IDE，进行开发板相应的 SDK 编译与下载。 
 
-## 2.使用Atmel-Studio开发
+## 2.使用Atmel Studio开发
 
-### 2.1下载IDE
+### 2.1 下载IDE
 点击 [ Atmel Studio 下载](http://www.microchip.com/avr-support/atmel-studio-7)，进入开发工具下载列表页面。在列表中，选择适用于您 PC 系统类型的安装程序版本。
 
 Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网。
@@ -41,7 +39,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 
 
-### 2.2安装IDE
+### 2.2 安装IDE
 下载完成后，解压缩，双击 “.exe” 安装文件，即可启动安装，一路默认，next到底即可。 
 
 到安装目录中，双击 Atmel Studio.exe 文件，打开开发环境。 您还需更新 SAML21_DFP 组件至：“Atmel SAML21 Series Device Support (1.2.120) ” 版本，下载地址： 
@@ -60,7 +58,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 
 
-### 2.4导入工程
+### 2.4 导入工程
 
 菜单栏  “File”--->"Open"--->"Project/Solutiion", 选择 SDK 中的 “MXkit-L21.atsln” 文件，稍等片刻，即可成功导入工程。
 
@@ -68,7 +66,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 
 
-### 2.5编译工程
+### 2.5 编译工程
 点击工具栏中编译图标，开始工程编译过程，全程大约耗时几十秒，请耐心等待。
 
 ![开始编译](https://github.com/neooxu/MXkit-L21/blob/master/image/compiler.png) 
@@ -79,7 +77,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 
 
-### 2.6下载与调试
+### 2.6 下载与调试
 
 #### 2.6.1 连接仿真器与开发板
 
@@ -124,6 +122,57 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 ![退出调试](https://github.com/neooxu/MXkit-L21/blob/master/image/quit_debug.png) 
 
+## 3.使用AliOS-Studio开发
+
+### 3.1 Windows环境配置 
+
+此处请参考：[AliOS Windows环境配置方法](https://github.com/alibaba/AliOS-Things/wiki/AliOS-Things-Windows-Environment-Setup)
+
+注意：请忽略该页面中 关于 `aos make helloworld@mk3060` 编译的命令内容。
+
+### 3.2 获取AliOS Things SDK
+
+请进入 [AliOS-Things SDK 仓库页面](https://github.com/neooxu/AliOS-Things/tree/saml21.png)，您可以：
+
+* 如果您安装了 Git, 可通过命令： `git clone https://github.com/neooxu/AliOS-Things.git` 克隆SDK仓库到本地，并切换分支： `git checkout saml21`。
+
+* 如果您未安装 Git，可在该仓库切换分支到 “saml21”后，通过点击 “Downlod zip”,下载 SDK 源代码到本地。
+
+下载后，进入 SDK 目录，可找到本 IOT 示例对应的 源代码文件，如下图：
+
+![mxchip](https://github.com/neooxu/MXkit-L21/blob/master/image/mxchipdemo.png)
+
+
+### 3.3 SDK编译
+
+PC端通过快捷键 “win+R”, 输入 “cmd”， 打开 “系统命令行”窗口 ，进入 AliOS-Things SDK 目录下，输入编译命令：`aos make mxchip.IOT_AT3080_demo@saml21_iot_sk`，并回车。
+
+编译成功，log信息如下图，说明您的环境配置成功。
+
+![AliOS-Things SDK编译](https://github.com/neooxu/MXkit-L21/blob/master/image/aosmake.png)
+
+
+### 3.4 固件下载
+
+#### 3.4.1 下载 OpenOCD
+
+如果想通过 Jlink 下载编译固件到 SMAL2x IOT SK 开发板，还需要下载 OpenOCD 工具文件。
+请点击进入：[OpenOCD 官方网站](http://www.freddiechopin.info/en/download/category/4-openocd)，下载最新版本的 OpenOCD 压缩包，并解压。
+
+#### 3.4.2 配置 OpenOCD
+
+1. 将解压后的 OpenOCD 文件夹放在 “\AliOS-Things\build” 根目录下，并修改文件夹名字为：“OpenOCD”;
+2. 修改该目录：“\AliOS-Things\build\OpenOCD” 中的文件夹 “bin” 的名字为： “Win32”。
+
+
+#### 3.4.3 固件下载
+
+1. 首先确保开发板连接至 Jlink（注意：若jlink无法提供外接电源，必须通过usb线为开发板供电）。
+2. 打开步骤 “3.3 SDK编译” 中的PC端命令行窗口，在正确的目录下，输入下载命令： `aos make mxchip.IOT_AT3080_demo@saml21_iot_sk download`， 并回车，即可下载固件到开发板，log信息如下图：
+
+![AliOS-Things SDK下载](https://github.com/neooxu/MXkit-L21/blob/master/image/aosdownload.png)
+
+至此，固件下载完毕，可继续步骤 4， 开始学习示例使用。
 
 
 ## 4.IoT示例使用流程
@@ -137,7 +186,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 使用具体步骤如下：
 
 
-### 4.1准备工作
+### 4.1 准备工作
 
 **—— 手机 APP 端**
 
@@ -161,7 +210,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 ![设备供电](https://github.com/neooxu/MXkit-L21/blob/master/image/device_power.png) 
 
 
-### 4.2启动配网
+### 4.2 启动配网
 打开手机 APP, 点击右上角 “+” 号，选择设备 “SAML21 IOT SK”，根据提示进行操作。
 
 1. 长按开发板上盖板的 USER 按键，恢复设备出厂设置，此时开发板 OLED 屏最后一行将打印显示："Restore default",继而跳变至 “Wi-Fi config....” 等待手机配网中；
@@ -178,7 +227,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 
 
 
-### 4.3控制设备
+### 4.3 控制设备
 进入设备控制页面，可对各外部设备参数进行监测或控制，或在线调试。
 
 1. 监测：
@@ -196,7 +245,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 
 ## 结束语
 
-以上为本 SDK 在 Atmel Studio 开发环境中的具体使用方法，请仔细参考，祝学习愉快，谢谢。
+以上为本 SDK 在 Atmel Studio IDE 和 AliOS Studio 中的使用方法，请仔细参考，祝学习愉快，谢谢。
   
 
 
