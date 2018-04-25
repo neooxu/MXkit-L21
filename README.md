@@ -132,7 +132,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 ### 3.2 获取AliOS Things SDK
 
-请进入 [AliOS-Things SDK 仓库页面](https://github.com/neooxu/AliOS-Things/tree/saml21.png)，您可以：
+请进入 [AliOS-Things SDK 仓库页面](https://github.com/neooxu/AliOS-Things/tree/saml21)，您可以：
 
 * 如果您安装了 Git, 可通过命令： `git clone https://github.com/neooxu/AliOS-Things.git` 克隆SDK仓库到本地，并切换分支： `git checkout saml21`。
 
@@ -140,12 +140,16 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 下载后，进入 SDK 目录，可找到本 IOT 示例对应的 源代码文件，如下图：
 
-![mxchip](https://github.com/neooxu/MXkit-L21/blob/master/image/mxchipdemo.png)
+![microchip](https://github.com/neooxu/MXkit-L21/blob/master/image/microchipdemo.png)
 
 
 ### 3.3 SDK编译
 
-PC端通过快捷键 “win+R”, 输入 “cmd”， 打开 “系统命令行”窗口 ，进入 AliOS-Things SDK 目录下，输入编译命令：`aos make mxchip.IOT_AT3080_demo@saml21_iot_sk`，并回车。
+PC端通过快捷键 “win+R”, 输入 “cmd”， 打开 “系统命令行”窗口 ，进入 AliOS-Things SDK 目录下，输入编译命令：
+
+`aos make microchip.IOT_AT3080_demo@saml21_iot_sk`，
+
+并回车。
 
 编译成功，log信息如下图，说明您的环境配置成功。
 
@@ -168,7 +172,11 @@ PC端通过快捷键 “win+R”, 输入 “cmd”， 打开 “系统命令行�
 #### 3.4.3 固件下载
 
 1. 首先确保开发板连接至 Jlink（注意：若jlink无法提供外接电源，必须通过usb线为开发板供电）。
-2. 打开步骤 “3.3 SDK编译” 中的PC端命令行窗口，在正确的目录下，输入下载命令： `aos make mxchip.IOT_AT3080_demo@saml21_iot_sk download`， 并回车，即可下载固件到开发板，log信息如下图：
+2. 打开步骤 “3.3 SDK编译” 中的PC端命令行窗口，在正确的目录下，输入下载命令： 
+
+ `aos make microchip.IOT_AT3080_demo@saml21_iot_sk download`
+
+并回车，即可下载固件到开发板，log信息如下图：
 
 ![AliOS-Things SDK下载](https://github.com/neooxu/MXkit-L21/blob/master/image/aosdownload.png)
 
