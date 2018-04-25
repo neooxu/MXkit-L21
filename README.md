@@ -136,7 +136,7 @@ Tips:您也可以选择在线安装方式，但一定记得不要让电脑断网
 
 * 如果您安装了 Git, 可通过命令： `git clone https://github.com/neooxu/AliOS-Things.git` 克隆SDK仓库到本地，并切换分支： `git checkout saml21`。
 
-* 如果您未安装 Git，可在该仓库切换分支到 “saml21”后，通过点击 “Downlod zip”,下载 SDK 源代码到本地。
+* 如果您未安装 Git，在确认该仓库切换分支到 “saml21”后，通过点击 “Downlod zip”,下载 SDK 源代码到本地。
 
 下载后，进入 SDK 目录，可找到本 IOT 示例对应的 源代码文件，如下图：
 
