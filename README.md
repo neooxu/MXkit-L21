@@ -200,7 +200,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 
 1.下载安装APP: 点击 [示例 APP 下载页面](https://www.pgyer.com/TIAnd)，或扫描下方二维码，请根据手机系统类型选择下载。
 
-![app下载](https://github.com/neooxu/MXkit-L21/blob/master/image/app_download_address.png)  
+![app下载](https://github.com/neooxu/MXkit-L21/blob/master/image/microchip_app.png)  
 
 2.使用手机号码，进行 APP 用户账号注册，验证，登录。
 
