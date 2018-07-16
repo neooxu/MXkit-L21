@@ -170,7 +170,7 @@ PC端通过快捷键 “win+R”, 输入 “cmd”， 打开 “系统命令行�
 1. Windows系统中，请将解压后的 OpenOCD 文件夹放在 “\AliOS-Things\build” 根目录下，并修改文件夹名字为：“OpenOCD”;
 2. 修改该目录：“\AliOS-Things\build\OpenOCD” 中的文件夹 “bin” 的名字为： “Win32”。
 
-**注意：MacOS系统中，直接复制解压后的文件：“openocd” 到 “\AliOS-Things\build” 根目录下。**
+**注意：MacOS系统中，将解压后的二级文件夹更名为 “OpenOCD”，再将名为“OpenOCD”文件夹复制到 “\AliOS-Things\build” 根目录下，。**
 
 ![macos openocd](https://github.com/neooxu/MXkit-L21/blob/master/image/macos-openocd.png)
 
