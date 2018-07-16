@@ -163,10 +163,14 @@ PC端通过快捷键 “win+R”, 输入 “cmd”， 打开 “系统命令行�
 如果想通过 Jlink 下载编译固件到 SMAL2x IOT SK 开发板，还需要下载 OpenOCD 工具文件。
 请点击进入：[OpenOCD 官方网站](http://www.freddiechopin.info/en/download/category/4-openocd)，下载最新版本的 OpenOCD 压缩包，并解压。
 
+**注意：MacOS 的 OpenOCD 压缩包文件下载链接：[gnu-mcu-eclipse-openocd-0.10.0-8-20180512-1921-macos.tgz](https://github.com/gnu-mcu-eclipse/openocd/releases/download/v0.10.0-8-20180512/gnu-mcu-eclipse-openocd-macos.tgz)，并解压。**
+
 #### 3.4.2 配置 OpenOCD
 
-1. 将解压后的 OpenOCD 文件夹放在 “\AliOS-Things\build” 根目录下，并修改文件夹名字为：“OpenOCD”;
+1. Windows系统中，请将解压后的 OpenOCD 文件夹放在 “\AliOS-Things\build” 根目录下，并修改文件夹名字为：“OpenOCD”;
 2. 修改该目录：“\AliOS-Things\build\OpenOCD” 中的文件夹 “bin” 的名字为： “Win32”。
+
+**注意：MacOS系统中，直接复制解压后的文件：“openocd” 到 “\AliOS-Things\build” 根目录下。**
 
 
 #### 3.4.3 固件下载
@@ -198,7 +202,7 @@ Microchip 的 SAML2X 单片机， 通过串口连接 EMW3080 Wi-Fi 模块，并�
 
 **—— 手机 APP 端**
 
-1.下载安装APP: 点击 [示例 APP 下载页面](https://www.pgyer.com/TIAnd)，或扫描下方二维码，请根据手机系统类型选择下载。
+1.下载安装APP: 点击 [示例 APP 下载页面](http://www.pgyer.com/MICROa)，或扫描下方二维码，请根据手机系统类型选择下载。
 
 ![app下载](https://github.com/neooxu/MXkit-L21/blob/master/image/microchip_app.png)  
 
