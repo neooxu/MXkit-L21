@@ -172,6 +172,8 @@ PC端通过快捷键 “win+R”, 输入 “cmd”， 打开 “系统命令行�
 
 **注意：MacOS系统中，直接复制解压后的文件：“openocd” 到 “\AliOS-Things\build” 根目录下。**
 
+![macos openocd](https://github.com/neooxu/MXkit-L21/blob/master/image/macos-openocd.png)
+
 
 #### 3.4.3 固件下载
 
